@@ -6,10 +6,11 @@
 #define DSPLAYER_PLAYERWINDOW_H
 
 #include <gtkmm.h>
+#include "Components/BaseWindow.h"
 
 namespace UI {
 
-    class PlayerWindow : public Gtk::Window {
+    class PlayerWindow : public BaseWindow {
     private:
     protected:
         Gtk::Button *btnPlay, *btnStop, *btnNext, *btnPrev;
