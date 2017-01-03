@@ -3,7 +3,6 @@
 //
 
 #include "PlayerWindow.h"
-#include <iostream>
 
 void UI::PlayerWindow::onBtnPlayClicked() {
 
