@@ -14,7 +14,7 @@ namespace UI {
     private:
     protected:
         Gtk::Button *btnPlay, *btnStop, *btnNext, *btnPrev;
-        Gtk::VolumeButton *btnVolume;
+        Gtk::HScale *hsVolume;
 //        Gtk::SeekBar
 
         void onBtnPlayClicked();
@@ -25,7 +25,7 @@ namespace UI {
 
         void onBtnPrevClicked();
 
-        void onVolBtnValueChanged();
+        void onHsVolumeValueChanged();
 
     public:
 

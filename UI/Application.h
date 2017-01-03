@@ -14,7 +14,7 @@ namespace UI {
 
     class Application {
     private:
-        Glib::RefPtr<Gtk::Application> application;
+        Gtk::Main *application;
         PlayerWindow *mainWindow;
 
         int argc;

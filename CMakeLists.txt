@@ -8,7 +8,7 @@ add_executable(DSPlayer ${SOURCE_FILES})
 
 find_package(PkgConfig)
 
-pkg_check_modules(GTKMM gtkmm-3.0)
+pkg_check_modules(GTKMM gtkmm-2.4)
 
 link_directories(
         ${GTKMM_LIBRARY_DIRS})

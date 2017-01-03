@@ -21,11 +21,12 @@ void UI::PlayerWindow::onBtnPrevClicked() {
 
 }
 
-void UI::PlayerWindow::onVolBtnValueChanged() {
+void UI::PlayerWindow::onHsVolumeValueChanged() {
 
 }
 
 UI::PlayerWindow::PlayerWindow() {
+    //Create controls
     //Init controls
     //Init signals
     //Arrange controls

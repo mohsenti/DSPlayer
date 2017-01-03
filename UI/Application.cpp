@@ -5,14 +5,16 @@
 #include "Application.h"
 
 UI::Application::Application(int argc, char **argv) : argc(argc), argv(argv) {
-    application = Gtk::Application::create(argc, argv, "ir.digiways.DSPlayer");
+    application = new Gtk::Main(argc, argv);
     mainWindow = new PlayerWindow();
 }
 
 UI::Application::~Application() {
     delete mainWindow;
+    delete application;
 }
 
 int UI::Application::run() {
-    return application->run(*mainWindow);
+    application->run(*mainWindow);
+    return 0;
 }
