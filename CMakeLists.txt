@@ -18,3 +18,5 @@ include_directories(
 
 target_link_libraries(DSPlayer
         ${GTKMM_LIBRARIES})
+
+add_subdirectory(Tests)
