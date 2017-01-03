@@ -1,5 +1,7 @@
 #include <iostream>
+#include "UI/Application.h"
 
-int main() {
-    return 0;
+int main(int argc, char **argv) {
+    UI::Application application(argc, argv);
+    return application.run();
 }
