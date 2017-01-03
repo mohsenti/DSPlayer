@@ -9,7 +9,7 @@
 
 namespace UI {
 
-    class BaseWindow : Gtk::Window {
+    class BaseWindow : public Gtk::Window {
     public:
         void add(Gtk::Widget *widget) { Gtk::Window::add(*widget); }
     };
