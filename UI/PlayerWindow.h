@@ -10,6 +10,28 @@
 namespace UI {
 
     class PlayerWindow : public Gtk::Window {
+    private:
+    protected:
+        Gtk::Button *btnPlay, *btnStop, *btnNext, *btnPrev;
+        Gtk::VolumeButton *btnVolume;
+//        Gtk::SeekBar
+
+        void onBtnPlayClicked();
+
+        void onBtnStopClicked();
+
+        void onBtnNextClicked();
+
+        void onBtnPrevClicked();
+
+        void onVolBtnValueChanged();
+
+    public:
+
+        PlayerWindow();
+
+        virtual ~PlayerWindow();
+
     };
 
 }
