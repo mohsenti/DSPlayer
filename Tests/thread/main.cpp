@@ -3,7 +3,6 @@
 //
 
 #include <thread>
-#include <chrono>
 #include <mutex>
 #include <condition_variable>
 
@@ -38,7 +37,6 @@ void foo() {
 }
 
 int main(int argc, char **argv) {
-
     std::thread thread1(foo);
     thread1.join();
     std::this_thread::sleep_for(std::chrono::seconds(15));
