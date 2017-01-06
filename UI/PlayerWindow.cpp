@@ -29,8 +29,10 @@ UI::PlayerWindow::PlayerWindow() {
     //Init controls
     //Init signals
     //Arrange controls
+    set_position(Gtk::WindowPosition::WIN_POS_CENTER);
+    set_size_request(800, 600);
 }
 
 UI::PlayerWindow::~PlayerWindow() {
-
+    //destroy controls
 }
