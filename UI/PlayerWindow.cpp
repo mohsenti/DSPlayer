@@ -86,7 +86,7 @@ UI::PlayerWindow::PlayerWindow() {
     hbTopContainer->pack_start(*vbProgressContainer, true, true, 10);
     hbTopContainer->pack_end(*hsVolume, false, true);
 
-    add(vbMainContainer);
+    add(*vbMainContainer);
     set_position(Gtk::WindowPosition::WIN_POS_CENTER);
     set_default_size(800, 600);
     show_all();
