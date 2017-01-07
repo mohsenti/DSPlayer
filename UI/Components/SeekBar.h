@@ -44,6 +44,8 @@ namespace UI {
         Gtk::Label *label;
         Gtk::EventBox *box;
 
+        sigc::connection timeOutConnection;
+
         bool keyDown = false;
 
         bool onKeyDown(GdkEventButton *event);
@@ -51,6 +53,8 @@ namespace UI {
         bool onKeyUp(GdkEventButton *event);
 
         bool onMouseMove(GdkEventMotion *event);
+
+        bool onTimeoutLabel();
 
         void update(double x, double y);
     };

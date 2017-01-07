@@ -15,6 +15,8 @@ UI::SeekBar::SeekBar() : Gtk::Container() {
     box->set_parent(*this);
     box->add(*label);
 
+    box->set_visible(false);
+
     progressbar->set_parent(*this);
 
     set_has_window(false);
@@ -51,6 +53,11 @@ bool UI::SeekBar::onMouseMove(GdkEventMotion *event) {
     return false;
 }
 
+bool UI::SeekBar::onTimeoutLabel() {
+    this->requestRemoveLabel();
+    return false;
+}
+
 void UI::SeekBar::update(double x, double y) {
     double percent = x / progressbar->get_width();
     if (percent > 1)
@@ -66,10 +73,16 @@ UI::SeekBar::OnChangedEventSignalType UI::SeekBar::signal_changed() {
 
 void UI::SeekBar::requestLabel(const Glib::ustring &label) {
     this->label->set_label(label);
+    this->box->set_visible(true);
+
+    if (timeOutConnection.connected())
+        timeOutConnection.disconnect();
+    timeOutConnection = Glib::signal_timeout().connect(sigc::mem_fun(*this, &SeekBar::onTimeoutLabel), 1000);
+
 }
 
 void UI::SeekBar::requestRemoveLabel() {
-    this->label->set_label("");
+    this->box->set_visible(false);
 }
 
 void UI::SeekBar::set_fraction(double value) {
