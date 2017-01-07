@@ -15,19 +15,17 @@ UI::SeekBar::SeekBar() : Gtk::Container() {
     box->set_parent(*this);
     box->add(*label);
 
-    box->set_visible(false);
-
     progressbar->set_parent(*this);
 
     set_has_window(false);
     set_redraw_on_allocate(false);
+
     progressbar->add_events(Gdk::EventMask::BUTTON_PRESS_MASK);
     progressbar->add_events(Gdk::EventMask::BUTTON_RELEASE_MASK);
     progressbar->add_events(Gdk::EventMask::POINTER_MOTION_MASK);
     progressbar->signal_button_press_event().connect(sigc::mem_fun(*this, &SeekBar::onKeyDown));
     progressbar->signal_button_release_event().connect(sigc::mem_fun(*this, &SeekBar::onKeyUp));
     progressbar->signal_motion_notify_event().connect(sigc::mem_fun(*this, &SeekBar::onMouseMove));
-
 }
 
 bool UI::SeekBar::onKeyDown(GdkEventButton *event) {
@@ -103,6 +101,7 @@ void UI::SeekBar::on_size_allocate(Gtk::Allocation &allocation) {
 
     int labelWidth, labelHeight;
     label->get_layout()->get_pixel_size(labelWidth, labelHeight);
+    labelWidth += 20;
 
     labelAlloc.set_x(allocation.get_x() + (allocation.get_width() - labelWidth) / 2);
     labelAlloc.set_y(allocation.get_y());
