@@ -28,6 +28,7 @@ UI::PlayerWindow::PlayerWindow() {
     //Create controls
 
     using namespace Gtk;
+
     btnPlay = new Button(Stock::MEDIA_PLAY);
     btnNext = new Button(Stock::MEDIA_NEXT);
     btnPrev = new Button(Stock::MEDIA_PREVIOUS);
@@ -38,13 +39,20 @@ UI::PlayerWindow::PlayerWindow() {
     vbMainContainer = new VBox();
     vbProgressContainer = new VBox();
     hbTopContainer = new HBox();
+
     //Init controls
+
     hbTopContainer->set_size_request(-1, 30);
     hsVolume->set_size_request(100, -1);
     hsVolume->set_draw_value(false);
     pbSeek->set_fraction(0.5);
+
     //Init signals
+
+
+
     //Arrange controls
+
     vbMainContainer->pack_start(*hbTopContainer, false, false);
 
     vbProgressContainer->pack_start(*pbSeek, true, false, 10);
@@ -64,6 +72,9 @@ UI::PlayerWindow::PlayerWindow() {
 
 UI::PlayerWindow::~PlayerWindow() {
     //destroy controls
+    delete vbProgressContainer;
+    delete hbTopContainer;
+    delete vbMainContainer;
     delete btnPlay;
     delete btnNext;
     delete btnPrev;
