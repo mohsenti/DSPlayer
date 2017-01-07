@@ -15,7 +15,9 @@ namespace UI {
     protected:
         Gtk::Button *btnPlay, *btnStop, *btnNext, *btnPrev;
         Gtk::HScale *hsVolume;
-//        Gtk::SeekBar
+        Gtk::ProgressBar *pbSeek;
+        Gtk::HBox *hbTopContainer;
+        Gtk::VBox *vbMainContainer, *vbProgressContainer;
 
         void onBtnPlayClicked();
 
