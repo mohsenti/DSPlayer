@@ -12,7 +12,6 @@ namespace UI {
 
     class PlayerWindow : public BaseWindow {
     private:
-    protected:
         Gtk::Button *btnPlay, *btnStop, *btnNext, *btnPrev;
         Gtk::HScale *hsVolume;
         Gtk::ProgressBar *pbSeek;
