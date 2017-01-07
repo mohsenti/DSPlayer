@@ -27,6 +27,7 @@ void UI::PlayerWindow::onHsVolumeValueChanged() {
 
 void UI::PlayerWindow::onPbSeekChanged(double value) {
     pbSeek->set_fraction(value);
+    pbSeek->requestLabel("HELLO LABEL");
 }
 
 UI::PlayerWindow::PlayerWindow() {
@@ -53,6 +54,7 @@ UI::PlayerWindow::PlayerWindow() {
     hsVolume->set_draw_value(false);
 
     pbSeek->set_fraction(0.5);
+    pbSeek->requestLabel("HELLO WORLD");
 
     //Init signals
 
@@ -68,13 +70,13 @@ UI::PlayerWindow::PlayerWindow() {
 
     vbMainContainer->pack_start(*hbTopContainer, false, false);
 
-    vbProgressContainer->pack_start(*pbSeek, true, false, 10);
+//    vbProgressContainer->pack_start(*pbSeek, true, false, 10);
 
     hbTopContainer->pack_start(*btnPlay, false, false);
     hbTopContainer->pack_start(*btnNext, false, false);
     hbTopContainer->pack_start(*btnPrev, false, false);
     hbTopContainer->pack_start(*btnStop, false, false);
-    hbTopContainer->pack_start(*vbProgressContainer, true, true, 10);
+    hbTopContainer->pack_start(*pbSeek, true, true, 10);
     hbTopContainer->pack_end(*hsVolume, false, true);
 
     add(*vbMainContainer);
