@@ -29,6 +29,10 @@ namespace UI {
 
         void onHsVolumeValueChanged();
 
+        bool onPbSeekClick(GdkEventButton *event);
+
+        bool onPbSeekMouseMove(GdkEventMotion *event);
+
     public:
 
         PlayerWindow();

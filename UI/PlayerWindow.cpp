@@ -2,6 +2,7 @@
 // Created by mohsen on 1/3/17.
 //
 
+#include <iostream>
 #include "PlayerWindow.h"
 
 void UI::PlayerWindow::onBtnPlayClicked() {
@@ -21,7 +22,17 @@ void UI::PlayerWindow::onBtnPrevClicked() {
 }
 
 void UI::PlayerWindow::onHsVolumeValueChanged() {
+    std::cout << hsVolume->get_value() << std::endl;
+}
 
+bool UI::PlayerWindow::onPbSeekClick(GdkEventButton *event) {
+    if (event->button == 1) {
+    }
+    return false;
+}
+
+bool UI::PlayerWindow::onPbSeekMouseMove(GdkEventMotion *event) {
+    return false;
 }
 
 UI::PlayerWindow::PlayerWindow() {
@@ -33,7 +44,7 @@ UI::PlayerWindow::PlayerWindow() {
     btnNext = new Button(Stock::MEDIA_NEXT);
     btnPrev = new Button(Stock::MEDIA_PREVIOUS);
     btnStop = new Button(Stock::MEDIA_STOP);
-    hsVolume = new HScale(0, 101, 1);
+    hsVolume = new HScale(0, 100, 1);
     pbSeek = new ProgressBar();
 
     vbMainContainer = new VBox();
@@ -43,13 +54,24 @@ UI::PlayerWindow::PlayerWindow() {
     //Init controls
 
     hbTopContainer->set_size_request(-1, 30);
+
     hsVolume->set_size_request(100, -1);
     hsVolume->set_draw_value(false);
+
+    pbSeek->add_events(Gdk::EventMask::BUTTON_PRESS_MASK);
+    pbSeek->add_events(Gdk::EventMask::POINTER_MOTION_MASK);
     pbSeek->set_fraction(0.5);
 
     //Init signals
 
+    btnPlay->signal_clicked().connect(sigc::mem_fun(*this, &PlayerWindow::onBtnPlayClicked));
+    btnNext->signal_clicked().connect(sigc::mem_fun(*this, &PlayerWindow::onBtnNextClicked));
+    btnPrev->signal_clicked().connect(sigc::mem_fun(*this, &PlayerWindow::onBtnPrevClicked));
+    btnStop->signal_clicked().connect(sigc::mem_fun(*this, &PlayerWindow::onBtnStopClicked));
+    hsVolume->signal_value_changed().connect(sigc::mem_fun(*this, &PlayerWindow::onHsVolumeValueChanged));
 
+    pbSeek->signal_button_press_event().connect(sigc::mem_fun(*this, &PlayerWindow::onPbSeekClick));
+    pbSeek->signal_motion_notify_event().connect(sigc::mem_fun(*this, &PlayerWindow::onPbSeekMouseMove));
 
     //Arrange controls
 
