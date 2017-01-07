@@ -14,13 +14,32 @@ UI::SeekBar::SeekBar() : Gtk::ProgressBar() {
 }
 
 bool UI::SeekBar::onKeyDown(GdkEventButton *event) {
+    if (event->button == 1) {
+        keyDown = true;
+        update(event->x, event->y);
+    }
     return false;
 }
 
 bool UI::SeekBar::onKeyUp(GdkEventButton *event) {
+    if (event->button == 1) {
+        keyDown = false;
+        update(event->x, event->y);
+    }
     return false;
 }
 
 bool UI::SeekBar::onMouseMove(GdkEventMotion *event) {
+    if (keyDown) {
+        update(event->x, event->y);
+    }
     return false;
+}
+
+void UI::SeekBar::update(double x, double y) {
+    onChangedEventSignal.emit(x / this->get_width());
+}
+
+UI::SeekBar::OnChangedEventSignalType UI::SeekBar::signal_changed() {
+    return onChangedEventSignal;
 }

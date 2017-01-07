@@ -12,7 +12,12 @@ namespace UI {
     public:
         SeekBar();
 
+        typedef sigc::signal<void, double> OnChangedEventSignalType;
+
+        OnChangedEventSignalType signal_changed();
+
     protected:
+        OnChangedEventSignalType onChangedEventSignal;
     private:
         bool keyDown = false;
 
@@ -21,6 +26,8 @@ namespace UI {
         bool onKeyUp(GdkEventButton *event);
 
         bool onMouseMove(GdkEventMotion *event);
+
+        void update(double x, double y);
     };
 }
 
