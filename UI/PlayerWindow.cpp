@@ -54,7 +54,6 @@ UI::PlayerWindow::PlayerWindow() {
     hsVolume->set_draw_value(false);
 
     pbSeek->set_fraction(0.5);
-    pbSeek->requestLabel("HELLO WORLD");
 
     //Init signals
 
