@@ -25,14 +25,8 @@ void UI::PlayerWindow::onHsVolumeValueChanged() {
     std::cout << hsVolume->get_value() << std::endl;
 }
 
-bool UI::PlayerWindow::onPbSeekClick(GdkEventButton *event) {
-    if (event->button == 1) {
-    }
-    return false;
-}
-
-bool UI::PlayerWindow::onPbSeekMouseMove(GdkEventMotion *event) {
-    return false;
+void UI::PlayerWindow::onPbSeekChanged(double value) {
+    pbSeek->set_fraction(value);
 }
 
 UI::PlayerWindow::PlayerWindow() {
@@ -45,7 +39,7 @@ UI::PlayerWindow::PlayerWindow() {
     btnPrev = new Button(Stock::MEDIA_PREVIOUS);
     btnStop = new Button(Stock::MEDIA_STOP);
     hsVolume = new HScale(0, 100, 1);
-    pbSeek = new ProgressBar();
+    pbSeek = new SeekBar();
 
     vbMainContainer = new VBox();
     vbProgressContainer = new VBox();
@@ -58,8 +52,6 @@ UI::PlayerWindow::PlayerWindow() {
     hsVolume->set_size_request(100, -1);
     hsVolume->set_draw_value(false);
 
-    pbSeek->add_events(Gdk::EventMask::BUTTON_PRESS_MASK);
-    pbSeek->add_events(Gdk::EventMask::POINTER_MOTION_MASK);
     pbSeek->set_fraction(0.5);
 
     //Init signals
@@ -70,8 +62,7 @@ UI::PlayerWindow::PlayerWindow() {
     btnStop->signal_clicked().connect(sigc::mem_fun(*this, &PlayerWindow::onBtnStopClicked));
     hsVolume->signal_value_changed().connect(sigc::mem_fun(*this, &PlayerWindow::onHsVolumeValueChanged));
 
-    pbSeek->signal_button_press_event().connect(sigc::mem_fun(*this, &PlayerWindow::onPbSeekClick));
-    pbSeek->signal_motion_notify_event().connect(sigc::mem_fun(*this, &PlayerWindow::onPbSeekMouseMove));
+    pbSeek->signal_changed().connect(sigc::mem_fun(*this, &PlayerWindow::onPbSeekChanged));
 
     //Arrange controls
 

@@ -6,6 +6,7 @@
 #define DSPLAYER_PLAYERWINDOW_H
 
 #include <gtkmm.h>
+#include "Components/SeekBar.h"
 
 namespace UI {
 
@@ -13,7 +14,7 @@ namespace UI {
     private:
         Gtk::Button *btnPlay, *btnStop, *btnNext, *btnPrev;
         Gtk::HScale *hsVolume;
-        Gtk::ProgressBar *pbSeek;
+        SeekBar *pbSeek;
         Gtk::HBox *hbTopContainer;
         Gtk::VBox *vbMainContainer, *vbProgressContainer;
 
@@ -27,9 +28,7 @@ namespace UI {
 
         void onHsVolumeValueChanged();
 
-        bool onPbSeekClick(GdkEventButton *event);
-
-        bool onPbSeekMouseMove(GdkEventMotion *event);
+        void onPbSeekChanged(double value);
 
     public:
 
