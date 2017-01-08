@@ -5,7 +5,7 @@
 #include "Application.h"
 
 UI::Application::Application(int argc, char **argv) : argc(argc), argv(argv) {
-    application = new Gtk::Main(argc, argv);
+    application = new Gtk::Main(argc, argv, false);
     mainWindow = new PlayerWindow();
 }
 
