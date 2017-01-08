@@ -10,7 +10,8 @@ UI::SeekBar::SeekBar() : Gtk::Container() {
     progressbar = new Gtk::ProgressBar();
     label = new Gtk::Label();
     box = new Gtk::EventBox();
-    box->modify_bg(Gtk::STATE_NORMAL, Gdk::Color("green")); // Label modify_bg not work !!!!!!!!!!!
+    box->modify_bg(Gtk::STATE_NORMAL, Gdk::Color(
+            "green")); // Label modify_bg not work !!!!!!!!!!! base on http://ometer.com/gtk-colors.html label does not have background.
 
     box->set_parent(*this);
     box->add(*label);
