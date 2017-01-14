@@ -5,13 +5,13 @@ project(DSPlayer)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-find_package(Qt4 4.4.3 REQUIRED QtCore QtGui)
+find_package(Qt4 4.4.3 REQUIRED QtCore QtGui phonon)
 
 set(SOURCE_FILES main.cpp UI/Application.cpp UI/Application.h UI/PlayerWindow.cpp UI/PlayerWindow.h Core/CoreTools.h)
 add_executable(DSPlayer ${SOURCE_FILES})
 
 find_package(Threads)
 
-target_link_libraries(DSPlayer Qt4::QtCore Qt4::QtGui)
+target_link_libraries(DSPlayer Qt4::QtCore Qt4::QtGui Qt4::phonon)
 
 #add_subdirectory(OldGtkmmTests)
