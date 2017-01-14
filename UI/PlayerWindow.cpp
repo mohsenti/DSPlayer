@@ -21,72 +21,63 @@ void UI::PlayerWindow::onBtnPrevClicked() {
 
 }
 
-void UI::PlayerWindow::onHsVolumeValueChanged() {
-    std::cout << hsVolume->get_value() << std::endl;
+void UI::PlayerWindow::onHsVolumeValueChanged(int value) {
+    pbSeek->setValue(value);
 }
 
-void UI::PlayerWindow::onPbSeekChanged(double value) {
-    pbSeek->set_fraction(value);
-    pbSeek->requestLabel("HELLO LABEL");
-}
-
-UI::PlayerWindow::PlayerWindow() {
+UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     //Create controls
 
-    using namespace Gtk;
+    vbMainContainer = new QVBoxLayout();
+    hbTopContainer = new QHBoxLayout();
 
-    btnPlay = new Button(Stock::MEDIA_PLAY);
-    btnNext = new Button(Stock::MEDIA_NEXT);
-    btnPrev = new Button(Stock::MEDIA_PREVIOUS);
-    btnStop = new Button(Stock::MEDIA_STOP);
-    hsVolume = new HScale(0, 100, 1);
-    pbSeek = new SeekBar();
-
-    vbMainContainer = new VBox();
-    vbProgressContainer = new VBox();
-    hbTopContainer = new HBox();
+    btnPlay = new QPushButton(QIcon::fromTheme("media-playback-start"), "", this);
+    btnNext = new QPushButton(QIcon::fromTheme("media-skip-forward"), "", this);
+    btnPrev = new QPushButton(QIcon::fromTheme("media-skip-backward"), "", this);
+    btnStop = new QPushButton(QIcon::fromTheme("media-playback-stop"), "", this);
+    hsVolume = new QSlider(Qt::Horizontal, this);
+    pbSeek = new QProgressBar(this);
 
     //Init controls
 
-    hbTopContainer->set_size_request(-1, 30);
+    hsVolume->setFixedWidth(100);
+    hsVolume->setRange(0, 100);
+    hsVolume->setValue(50);
 
-    hsVolume->set_size_request(100, -1);
-    hsVolume->set_draw_value(false);
+    pbSeek->setMinimumWidth(250);
+    pbSeek->setRange(0, 100);
+    pbSeek->setValue(50);
+    pbSeek->setFormat("2:15");
 
-    pbSeek->set_fraction(0.5);
+    //Load themes
+
+
 
     //Init signals
 
-    btnPlay->signal_clicked().connect(sigc::mem_fun(*this, &PlayerWindow::onBtnPlayClicked));
-    btnNext->signal_clicked().connect(sigc::mem_fun(*this, &PlayerWindow::onBtnNextClicked));
-    btnPrev->signal_clicked().connect(sigc::mem_fun(*this, &PlayerWindow::onBtnPrevClicked));
-    btnStop->signal_clicked().connect(sigc::mem_fun(*this, &PlayerWindow::onBtnStopClicked));
-    hsVolume->signal_value_changed().connect(sigc::mem_fun(*this, &PlayerWindow::onHsVolumeValueChanged));
-
-    pbSeek->signal_changed().connect(sigc::mem_fun(*this, &PlayerWindow::onPbSeekChanged));
+    connect(btnPlay, SIGNAL(clicked()), this, SLOT(onBtnPlayClicked()));
+    connect(btnNext, SIGNAL(clicked()), this, SLOT(onBtnNextClicked()));
+    connect(btnPrev, SIGNAL(clicked()), this, SLOT(onBtnPrevClicked()));
+    connect(btnStop, SIGNAL(clicked()), this, SLOT(onBtnStopClicked()));
+    connect(hsVolume, SIGNAL(valueChanged(int)), this, SLOT(onHsVolumeValueChanged(int)));
 
     //Arrange controls
 
-    vbMainContainer->pack_start(*hbTopContainer, false, false);
+    setLayout(vbMainContainer);
 
-//    vbProgressContainer->pack_start(*pbSeek, true, false, 10);
+    vbMainContainer->addLayout(hbTopContainer);
+    vbMainContainer->setAlignment(Qt::AlignmentFlag::AlignTop);
+    hbTopContainer->addWidget(btnPlay);
+    hbTopContainer->addWidget(btnNext);
+    hbTopContainer->addWidget(btnPrev);
+    hbTopContainer->addWidget(btnStop);
+    hbTopContainer->addWidget(pbSeek);
+    hbTopContainer->addWidget(hsVolume);
 
-    hbTopContainer->pack_start(*btnPlay, false, false);
-    hbTopContainer->pack_start(*btnNext, false, false);
-    hbTopContainer->pack_start(*btnPrev, false, false);
-    hbTopContainer->pack_start(*btnStop, false, false);
-    hbTopContainer->pack_start(*pbSeek, true, true, 10);
-    hbTopContainer->pack_end(*hsVolume, false, true);
-
-    add(*vbMainContainer);
-    set_position(Gtk::WindowPosition::WIN_POS_CENTER);
-    set_default_size(800, 600);
-    show_all();
 }
 
 UI::PlayerWindow::~PlayerWindow() {
     //destroy controls
-    delete vbProgressContainer;
     delete hbTopContainer;
     delete vbMainContainer;
     delete btnPlay;

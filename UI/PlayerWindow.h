@@ -5,18 +5,24 @@
 #ifndef DSPLAYER_PLAYERWINDOW_H
 #define DSPLAYER_PLAYERWINDOW_H
 
-#include <gtkmm.h>
-#include "Components/SeekBar.h"
+#include <qt4/QtGui/QPushButton>
+#include <qt4/QtGui/QProgressBar>
+#include <qt4/QtGui/QHBoxLayout>
+#include <qt4/QtGui/QSlider>
 
 namespace UI {
 
-    class PlayerWindow : public Gtk::Window {
+    class PlayerWindow : public QWidget {
+    Q_OBJECT
+
     private:
-        Gtk::Button *btnPlay, *btnStop, *btnNext, *btnPrev;
-        Gtk::HScale *hsVolume;
-        SeekBar *pbSeek;
-        Gtk::HBox *hbTopContainer;
-        Gtk::VBox *vbMainContainer, *vbProgressContainer;
+        QPushButton *btnPlay, *btnStop, *btnNext, *btnPrev;
+        QSlider *hsVolume;
+        QProgressBar *pbSeek;
+        QHBoxLayout *hbTopContainer;
+        QVBoxLayout *vbMainContainer;
+
+    private slots:
 
         void onBtnPlayClicked();
 
@@ -26,13 +32,11 @@ namespace UI {
 
         void onBtnPrevClicked();
 
-        void onHsVolumeValueChanged();
-
-        void onPbSeekChanged(double value);
+        void onHsVolumeValueChanged(int value);
 
     public:
 
-        PlayerWindow();
+        explicit PlayerWindow(QWidget *parent = 0);
 
         virtual ~PlayerWindow();
 

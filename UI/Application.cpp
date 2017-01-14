@@ -6,7 +6,6 @@
 
 UI::Application::Application(int argc, char **argv) : argc(argc), argv(argv) {
     application = new QApplication(argc, argv);
-    mainWindow = new PlayerWindow();
 }
 
 UI::Application::~Application() {
@@ -15,5 +14,7 @@ UI::Application::~Application() {
 }
 
 int UI::Application::run() {
+    mainWindow = new PlayerWindow();
+    mainWindow->show();
     return application->exec();
 }
