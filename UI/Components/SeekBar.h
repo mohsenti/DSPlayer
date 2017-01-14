@@ -9,6 +9,7 @@
 #include <QtGui/QProgressBar>
 #include <QtGui/QWidget>
 #include <QtGui/QLabel>
+#include <QTimer>
 
 namespace UI {
     class SeekBar : public QProgressBar {
@@ -22,6 +23,7 @@ namespace UI {
     private:
         bool isDown = false;
         QLabel *label;
+        QTimer *timer;
 
         void updateValue(int x);
 
@@ -45,6 +47,10 @@ namespace UI {
         virtual void leaveEvent(QEvent *event) override;
 
         virtual void resizeEvent(QResizeEvent *event) override;
+
+    private slots:
+
+        void onTimerTimeOut();
 
     signals:
 
