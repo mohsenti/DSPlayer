@@ -17,11 +17,13 @@ void UI::PlayerWindow::onBtnStopClicked() {
 }
 
 void UI::PlayerWindow::onBtnNextClicked() {
-
+    if (twTracks->currentIndex().row() < twTracks->topLevelItemCount() - 1)
+        twTracks->setCurrentIndex(twTracks->indexBelow(twTracks->currentIndex()));
 }
 
 void UI::PlayerWindow::onBtnPrevClicked() {
-
+    if (twTracks->currentIndex().row() > 0)
+        twTracks->setCurrentIndex(twTracks->indexAbove(twTracks->currentIndex()));
 }
 
 void UI::PlayerWindow::onHsVolumeValueChanged(int value) {
@@ -41,7 +43,13 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     hsVolume = new QSlider(Qt::Horizontal, this);
     pbSeek = new SeekBar(this);
 
-    lwTracks = new QListWidget(this);
+    twTracks = new QTreeWidget(this);
+    twTracks->setColumnCount(3);
+    QStringList labels;
+    labels << "Track" << "Duration" << "Album";
+    twTracks->setHeaderLabels(labels);
+//    twTracks->setCurrentItem(currentTrack);
+
 
     //Init controls
 
@@ -69,12 +77,12 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
 
     hbTopContainer->addWidget(btnPlay);
     hbTopContainer->addWidget(btnStop);
-    hbTopContainer->addWidget(btnNext);
     hbTopContainer->addWidget(btnPrev);
+    hbTopContainer->addWidget(btnNext);
     hbTopContainer->addWidget(pbSeek);
     hbTopContainer->addWidget(hsVolume);
 
-    vbMainContainer->addWidget(lwTracks);
+    vbMainContainer->addWidget(twTracks);
 
     setLayout(vbMainContainer);
 
@@ -94,6 +102,14 @@ UI::PlayerWindow::~PlayerWindow() {
     delete btnStop;
     delete hsVolume;
     delete pbSeek;
-    delete lwTracks;
+    delete twTracks;
 
+}
+
+QTreeWidgetItem *UI::PlayerWindow::createListItem(const QString &title, const QString &duration, const QString &album) {
+    QTreeWidgetItem *item = new QTreeWidgetItem();
+    item->setText(0, title);
+    item->setText(1, duration);
+    item->setText(2, album);
+    return item;
 }

@@ -10,7 +10,7 @@
 #include <qt4/QtGui/QHBoxLayout>
 #include <qt4/QtGui/QSlider>
 #include <UI/Components/SeekBar.h>
-#include <QtGui/QListWidget>
+#include <QtGui/QTreeWidget>
 
 namespace UI {
 
@@ -24,7 +24,11 @@ namespace UI {
         QHBoxLayout *hbTopContainer;
         QVBoxLayout *vbMainContainer;
 
-        QListWidget *lwTracks;
+        QTreeWidget *twTracks;
+        QTreeWidgetItem *createListItem(const QString &title,const QString &duration,const QString &album);
+
+    private:
+        QTreeWidgetItem *currentTrack;
     private slots:
 
         void onBtnPlayClicked();
