@@ -1,4 +1,14 @@
 
+find_package(PkgConfig)
+
+pkg_check_modules(GTKMM gtkmm-2.4)
+
+link_directories(
+        ${GTKMM_LIBRARY_DIRS})
+
+include_directories(
+        ${GTKMM_INCLUDE_DIRS})
+
 add_executable(scale scale/main.cpp)
 target_link_libraries(scale ${GTKMM_LIBRARIES})
 

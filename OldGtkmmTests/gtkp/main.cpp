@@ -4,6 +4,7 @@
 
 #include <gtk/gtk.h>
 #include <string.h>
+#include <iostream>
 
 gint main(gint argc, gchar **argv) {
     GtkWidget *window;
@@ -13,6 +14,7 @@ gint main(gint argc, gchar **argv) {
     gtk_init(&argc, &argv);
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     bar = gtk_progress_bar_new();
+    std::cout << gtk_widget_get_name(bar) << std::endl;
     auto style = gtk_style_new();
     for (int i = 0; i < 1; i++) {
         gdk_color_parse("red", &style->bg[GTK_STATE_PRELIGHT]);
