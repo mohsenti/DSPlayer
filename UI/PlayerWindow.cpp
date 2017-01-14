@@ -3,6 +3,9 @@
 //
 
 #include <iostream>
+#include <QtGui/QDesktopWidget>
+#include <QtGui/QStyle>
+#include <QtGui/QApplication>
 #include "PlayerWindow.h"
 
 void UI::PlayerWindow::onBtnPlayClicked() {
@@ -73,6 +76,9 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     hbTopContainer->addWidget(hsVolume);
 
     setLayout(vbMainContainer);
+
+    this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, this->size(),
+                                          QApplication::desktop()->availableGeometry()));
 }
 
 UI::PlayerWindow::~PlayerWindow() {
