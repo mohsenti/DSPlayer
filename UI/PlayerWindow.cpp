@@ -35,11 +35,13 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     hbTopContainer = new QHBoxLayout();
 
     btnPlay = new QPushButton(QIcon::fromTheme("media-playback-start"), "", this);
-    btnNext = new QPushButton(QIcon::fromTheme("media-skip-forward"), "", this);
     btnPrev = new QPushButton(QIcon::fromTheme("media-skip-backward"), "", this);
+    btnNext = new QPushButton(QIcon::fromTheme("media-skip-forward"), "", this);
     btnStop = new QPushButton(QIcon::fromTheme("media-playback-stop"), "", this);
     hsVolume = new QSlider(Qt::Horizontal, this);
     pbSeek = new SeekBar(this);
+
+    lwTracks = new QListWidget(this);
 
     //Init controls
 
@@ -75,6 +77,8 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     hbTopContainer->addWidget(btnPrev);
     hbTopContainer->addWidget(pbSeek);
     hbTopContainer->addWidget(hsVolume);
+
+    vbMainContainer->addWidget(lwTracks);
 
     setLayout(vbMainContainer);
 

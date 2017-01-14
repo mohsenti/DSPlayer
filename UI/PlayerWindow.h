@@ -10,6 +10,7 @@
 #include <qt4/QtGui/QHBoxLayout>
 #include <qt4/QtGui/QSlider>
 #include <UI/Components/SeekBar.h>
+#include <QtGui/QListWidget>
 
 namespace UI {
 
@@ -23,6 +24,7 @@ namespace UI {
         QHBoxLayout *hbTopContainer;
         QVBoxLayout *vbMainContainer;
 
+        QListWidget *lwTracks;
     private slots:
 
         void onBtnPlayClicked();
