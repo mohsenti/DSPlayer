@@ -54,10 +54,6 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     pbSeek->setValue(50);
     pbSeek->setFormat("2:15");
 
-    //Load themes
-
-
-
     //Init signals
 
     connect(btnPlay, SIGNAL(clicked()), this, SLOT(onBtnPlayClicked()));
