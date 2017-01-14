@@ -9,6 +9,7 @@
 #include <qt4/QtGui/QProgressBar>
 #include <qt4/QtGui/QHBoxLayout>
 #include <qt4/QtGui/QSlider>
+#include <UI/Components/SeekBar.h>
 
 namespace UI {
 
@@ -18,7 +19,7 @@ namespace UI {
     private:
         QPushButton *btnPlay, *btnStop, *btnNext, *btnPrev;
         QSlider *hsVolume;
-        QProgressBar *pbSeek;
+        SeekBar *pbSeek;
         QHBoxLayout *hbTopContainer;
         QVBoxLayout *vbMainContainer;
 

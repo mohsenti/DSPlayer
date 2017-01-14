@@ -39,7 +39,7 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     btnPrev = new QPushButton(QIcon::fromTheme("media-skip-backward"), "", this);
     btnStop = new QPushButton(QIcon::fromTheme("media-playback-stop"), "", this);
     hsVolume = new QSlider(Qt::Horizontal, this);
-    pbSeek = new QProgressBar(this);
+    pbSeek = new SeekBar(this);
 
     //Init controls
 
@@ -65,6 +65,7 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     connect(hsVolume, SIGNAL(valueChanged(int)), this, SLOT(onHsVolumeValueChanged(int)));
 
     //Arrange controls
+
     vbMainContainer->setAlignment(Qt::AlignmentFlag::AlignTop);
     vbMainContainer->addLayout(hbTopContainer);
 
@@ -82,7 +83,9 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
 }
 
 UI::PlayerWindow::~PlayerWindow() {
+
     //destroy controls
+
     delete hbTopContainer;
     delete vbMainContainer;
     delete btnPlay;
@@ -91,4 +94,5 @@ UI::PlayerWindow::~PlayerWindow() {
     delete btnStop;
     delete hsVolume;
     delete pbSeek;
+
 }
