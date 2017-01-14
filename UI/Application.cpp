@@ -5,7 +5,7 @@
 #include "Application.h"
 
 UI::Application::Application(int argc, char **argv) : argc(argc), argv(argv) {
-    application = new Gtk::Main(argc, argv, false);
+    application = new QApplication(argc, argv);
     mainWindow = new PlayerWindow();
 }
 
@@ -15,6 +15,5 @@ UI::Application::~Application() {
 }
 
 int UI::Application::run() {
-    application->run(*mainWindow);
-    return 0;
+    return application->exec();
 }

@@ -6,7 +6,7 @@
 #define DSPLAYER_APPLICATION_H
 
 
-#include <gtkmm.h>
+#include <QApplication>
 #include "PlayerWindow.h"
 #include "../Core/CoreTools.h"
 
@@ -14,7 +14,7 @@ namespace UI {
 
     class Application {
     private:
-        Gtk::Main *application;
+        QApplication *application;
         PlayerWindow *mainWindow;
 
         int argc;
