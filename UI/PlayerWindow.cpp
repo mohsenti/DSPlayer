@@ -62,18 +62,17 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     connect(hsVolume, SIGNAL(valueChanged(int)), this, SLOT(onHsVolumeValueChanged(int)));
 
     //Arrange controls
-
-    setLayout(vbMainContainer);
-
-    vbMainContainer->addLayout(hbTopContainer);
     vbMainContainer->setAlignment(Qt::AlignmentFlag::AlignTop);
+    vbMainContainer->addLayout(hbTopContainer);
+
     hbTopContainer->addWidget(btnPlay);
+    hbTopContainer->addWidget(btnStop);
     hbTopContainer->addWidget(btnNext);
     hbTopContainer->addWidget(btnPrev);
-    hbTopContainer->addWidget(btnStop);
     hbTopContainer->addWidget(pbSeek);
     hbTopContainer->addWidget(hsVolume);
 
+    setLayout(vbMainContainer);
 }
 
 UI::PlayerWindow::~PlayerWindow() {
