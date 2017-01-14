@@ -98,5 +98,6 @@ UI::PlayerWindow::~PlayerWindow() {
     delete btnStop;
     delete hsVolume;
     delete pbSeek;
+    delete lwTracks;
 
 }
