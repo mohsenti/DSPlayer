@@ -11,7 +11,6 @@
 #include <QDir>
 #include <QDebug>
 #include <QFileDialog>
-#include <Core/MimeType/MimeType.h>
 #include "PlayerWindow.h"
 
 void UI::PlayerWindow::onBtnPlayClicked() {
@@ -230,9 +229,10 @@ QTreeWidgetItem *UI::PlayerWindow::createListItem(const QString &title, const QS
 }
 
 void UI::PlayerWindow::openFiles(const QStringList &paths) {
+    QMimeDatabase mimeDatabase;
     for (auto it = paths.begin(); it != paths.end(); it++) {
-        QFile file(*it);
-        if (Core::MimeType::isAudioFile(file))
+        QMimeType mimeType = mimeDatabase.mimeTypeForFile(*it);
+        if (mimeType.name().startsWith("audio"))
             twTracks->addTopLevelItem(createListItem(*it, "", ""));
     }
 }
