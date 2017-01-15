@@ -63,11 +63,14 @@ void UI::PlayerWindow::onAddFolderMenuTriggered(bool checked) {
 }
 
 void UI::PlayerWindow::onQuitMenuTriggered(bool checked) {
-
+    QApplication::quit();
 }
 
 void UI::PlayerWindow::onRemoveMenuTriggered(bool checked) {
-
+    auto list = twTracks->selectedItems();
+    for (auto it = list.begin(); it != list.end(); it++) {
+        delete *it;
+    }
 }
 
 void UI::PlayerWindow::twTracksShowContextMenu(const QPoint &point) {
