@@ -79,16 +79,17 @@ void UI::SeekBar::updateValue(int x) {
         value = minimum();
     if (value > maximum())
         value = maximum();
-    setValue(value);
     setFocus();
+    emit userChangedValue(value);
+}
 
-    label->setText(QString::number(value));
-    label->setFixedWidth(label->fontMetrics().width(label->text()) + 20);
+void UI::SeekBar::requestLabel(const QString &text) {
+    label->setText(text);
+    label->setFixedWidth(label->fontMetrics().width(text) + 20);
     label->setGeometry((this->width() - label->width()) / 2, 0, label->width(), this->height());
     label->setVisible(true);
     repaint();
     timer->start();
-    emit userChangedValue(value);
 }
 
 void UI::SeekBar::onTimerTimeOut() {

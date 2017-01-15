@@ -23,7 +23,7 @@ namespace UI {
         explicit SeekBar(QWidget *parent = 0);
 
         virtual ~SeekBar();
-
+        void requestLabel(const QString &text);
     private:
         bool isDown = false;
         QLabel *label;
