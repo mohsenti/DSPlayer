@@ -10,6 +10,7 @@
 #include <QUrl>
 #include <QDir>
 #include <QDebug>
+#include <QtGui/QFileDialog>
 #include "PlayerWindow.h"
 
 void UI::PlayerWindow::onBtnPlayClicked() {
@@ -43,11 +44,15 @@ void UI::PlayerWindow::onHsVolumeValueChanged(int value) {
 }
 
 void UI::PlayerWindow::onAddFileMenuTriggered(bool checked) {
-
+    QFileDialog fileDialog(this);
+    fileDialog.setFileMode(QFileDialog::FileMode::ExistingFiles);
+    fileDialog.exec();
 }
 
 void UI::PlayerWindow::onAddFolderMenuTriggered(bool checked) {
-
+    QFileDialog fileDialog(this);
+    fileDialog.setFileMode(QFileDialog::FileMode::DirectoryOnly);
+    fileDialog.exec();
 }
 
 void UI::PlayerWindow::onQuitMenuTriggered(bool checked) {
