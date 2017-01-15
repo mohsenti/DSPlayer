@@ -47,12 +47,19 @@ void UI::PlayerWindow::onAddFileMenuTriggered(bool checked) {
     QFileDialog fileDialog(this);
     fileDialog.setFileMode(QFileDialog::FileMode::ExistingFiles);
     fileDialog.exec();
+    openFiles(fileDialog.selectedFiles());
 }
 
 void UI::PlayerWindow::onAddFolderMenuTriggered(bool checked) {
     QFileDialog fileDialog(this);
     fileDialog.setFileMode(QFileDialog::FileMode::DirectoryOnly);
     fileDialog.exec();
+    QStringList folders = fileDialog.selectedFiles();
+    QStringList files;
+    for (auto it = folders.begin(); it != folders.end(); it++) {
+        appendDirectory(QDir(*it), files);
+    }
+    openFiles(files);
 }
 
 void UI::PlayerWindow::onQuitMenuTriggered(bool checked) {
