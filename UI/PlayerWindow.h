@@ -20,7 +20,7 @@ namespace UI {
     Q_OBJECT
 
     private:
-        QPushButton *btnPlay, *btnStop, *btnNext, *btnPrev;
+        QPushButton *btnPlay, *btnStop, *btnNext, *btnPrev, *btnShuffle, *btnRepeat;
         QSlider *hsVolume;
         SeekBar *pbSeek;
         QHBoxLayout *hbTopContainer;
@@ -52,6 +52,10 @@ namespace UI {
         void onBtnNextClicked();
 
         void onBtnPrevClicked();
+
+        void onBtnRepeatToggled(bool state);
+
+        void onBtnShuffleToggled(bool state);
 
         void onHsVolumeValueChanged(int value);
 

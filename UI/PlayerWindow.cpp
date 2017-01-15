@@ -30,6 +30,14 @@ void UI::PlayerWindow::onBtnPrevClicked() {
         twTracks->setCurrentIndex(twTracks->indexAbove(twTracks->currentIndex()));
 }
 
+void UI::PlayerWindow::onBtnRepeatToggled(bool state) {
+
+}
+
+void UI::PlayerWindow::onBtnShuffleToggled(bool state) {
+
+}
+
 void UI::PlayerWindow::onHsVolumeValueChanged(int value) {
     pbSeek->setValue(value);
 }
@@ -58,12 +66,17 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     btnPrev = new QPushButton(QIcon::fromTheme("media-skip-backward"), "", this);
     btnNext = new QPushButton(QIcon::fromTheme("media-skip-forward"), "", this);
     btnStop = new QPushButton(QIcon::fromTheme("media-playback-stop"), "", this);
+    btnShuffle = new QPushButton(QIcon::fromTheme("media-playlist-shuffle"), "", this);
+    btnRepeat = new QPushButton(QIcon::fromTheme("media-playlist-repeat"), "", this);
     hsVolume = new QSlider(Qt::Horizontal, this);
     pbSeek = new SeekBar(this);
 
     twTracks = new QTreeWidget(this);
 
     //Init controls
+
+    btnShuffle->setCheckable(true);
+    btnRepeat->setCheckable(true);
 
     hsVolume->setFixedWidth(100);
     hsVolume->setRange(0, 100);
@@ -87,6 +100,8 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     connect(btnNext, SIGNAL(clicked()), this, SLOT(onBtnNextClicked()));
     connect(btnPrev, SIGNAL(clicked()), this, SLOT(onBtnPrevClicked()));
     connect(btnStop, SIGNAL(clicked()), this, SLOT(onBtnStopClicked()));
+    connect(btnRepeat, SIGNAL(toggled(bool)), this, SLOT(onBtnRepeatToggled(bool)));
+    connect(btnShuffle, SIGNAL(toggled(bool)), this, SLOT(onBtnShuffleToggled(bool)));
     connect(hsVolume, SIGNAL(valueChanged(int)), this, SLOT(onHsVolumeValueChanged(int)));
     connect(twTracks, SIGNAL(customContextMenuRequested(
                                      const QPoint&)), this, SLOT(twTracksShowContextMenu(
@@ -101,6 +116,8 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     hbTopContainer->addWidget(btnStop);
     hbTopContainer->addWidget(btnPrev);
     hbTopContainer->addWidget(btnNext);
+    hbTopContainer->addWidget(btnRepeat);
+    hbTopContainer->addWidget(btnShuffle);
     hbTopContainer->addWidget(pbSeek);
     hbTopContainer->addWidget(hsVolume);
 
