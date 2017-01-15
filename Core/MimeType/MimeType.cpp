@@ -29,5 +29,8 @@ bool Core::MimeType::isAudio(const char *first20bytes) {
     if (first20bytes[8] == 'W' && first20bytes[9] == 'A' && first20bytes[10] == 'V' && first20bytes[11] == 'E') //WAVE
         return true;
 
+    if (first20bytes[0] == 'O' && first20bytes[1] == 'g' && first20bytes[2] == 'g' && first20bytes[3] == 'S') //Ogg
+        return true;
+
     return false;
 }
