@@ -11,6 +11,7 @@
 #include <qt4/QtGui/QSlider>
 #include <UI/Components/SeekBar.h>
 #include <QtGui/QTreeWidget>
+#include <QtGui/QMenu>
 
 namespace UI {
 
@@ -25,7 +26,9 @@ namespace UI {
         QVBoxLayout *vbMainContainer;
 
         QTreeWidget *twTracks;
-        QTreeWidgetItem *createListItem(const QString &title,const QString &duration,const QString &album);
+
+        QTreeWidgetItem *createListItem(const QString &title, const QString &duration, const QString &album);
+
     private slots:
 
         void onBtnPlayClicked();
@@ -37,6 +40,8 @@ namespace UI {
         void onBtnPrevClicked();
 
         void onHsVolumeValueChanged(int value);
+
+        void twTracksShowContextMenu(const QPoint &point);
 
     public:
 

@@ -30,6 +30,20 @@ void UI::PlayerWindow::onHsVolumeValueChanged(int value) {
     pbSeek->setValue(value);
 }
 
+void UI::PlayerWindow::twTracksShowContextMenu(const QPoint &point) {
+    QPoint globalPoint = twTracks->mapToGlobal(point);
+    QMenu twMenu;
+    if (twTracks->selectedItems().size() > 0) {
+        twMenu.addAction("Remove");
+        twMenu.addSeparator();
+    }
+    twMenu.addAction("Add File");
+    twMenu.addAction("Add Folder");
+    twMenu.addSeparator();
+    twMenu.addAction("Quit");
+    QAction *selectedItem = twMenu.exec(globalPoint);
+}
+
 UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     //Create controls
 
@@ -44,12 +58,6 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     pbSeek = new SeekBar(this);
 
     twTracks = new QTreeWidget(this);
-    twTracks->setColumnCount(3);
-    QStringList labels;
-    labels << "Track" << "Duration" << "Album";
-    twTracks->setHeaderLabels(labels);
-//    twTracks->setCurrentItem(currentTrack);
-
 
     //Init controls
 
@@ -62,6 +70,13 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     pbSeek->setValue(50);
     pbSeek->setFormat("2:15");
 
+    twTracks->setColumnCount(3);
+    QStringList labels;
+    labels << "Track" << "Duration" << "Album";
+    twTracks->setHeaderLabels(labels);
+    twTracks->setContextMenuPolicy(Qt::CustomContextMenu);
+    twTracks->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
+
     //Init signals
 
     connect(btnPlay, SIGNAL(clicked()), this, SLOT(onBtnPlayClicked()));
@@ -69,6 +84,9 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     connect(btnPrev, SIGNAL(clicked()), this, SLOT(onBtnPrevClicked()));
     connect(btnStop, SIGNAL(clicked()), this, SLOT(onBtnStopClicked()));
     connect(hsVolume, SIGNAL(valueChanged(int)), this, SLOT(onHsVolumeValueChanged(int)));
+    connect(twTracks, SIGNAL(customContextMenuRequested(
+                                     const QPoint&)), this, SLOT(twTracksShowContextMenu(
+                                                                         const QPoint&)));
 
     //Arrange controls
 
