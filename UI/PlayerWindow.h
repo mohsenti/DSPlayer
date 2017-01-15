@@ -12,6 +12,7 @@
 #include <UI/Components/SeekBar.h>
 #include <QtGui/QTreeWidget>
 #include <QtGui/QMenu>
+#include <QFileInfo>
 
 namespace UI {
 
@@ -28,6 +29,19 @@ namespace UI {
         QTreeWidget *twTracks;
 
         QTreeWidgetItem *createListItem(const QString &title, const QString &duration, const QString &album);
+
+        void appendDirectory(const QFileInfo &fileInfo, QStringList &paths);
+
+        void openFiles(const QStringList &paths);
+
+    protected:
+        virtual void dragEnterEvent(QDragEnterEvent *event) override;
+
+        virtual void dragMoveEvent(QDragMoveEvent *event) override;
+
+        virtual void dragLeaveEvent(QDragLeaveEvent *event) override;
+
+        virtual void dropEvent(QDropEvent *event) override;
 
     private slots:
 

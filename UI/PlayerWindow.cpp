@@ -6,6 +6,9 @@
 #include <QtGui/QDesktopWidget>
 #include <QtGui/QStyle>
 #include <QtGui/QApplication>
+#include <QDropEvent>
+#include <QUrl>
+#include <QDir>
 #include "PlayerWindow.h"
 
 void UI::PlayerWindow::onBtnPlayClicked() {
@@ -106,6 +109,7 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
 
     this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, this->size(),
                                           QApplication::desktop()->availableGeometry()));
+    this->setAcceptDrops(true);
 }
 
 UI::PlayerWindow::~PlayerWindow() {
@@ -124,10 +128,55 @@ UI::PlayerWindow::~PlayerWindow() {
 
 }
 
+void UI::PlayerWindow::dragEnterEvent(QDragEnterEvent *event) {
+    event->acceptProposedAction();
+    QWidget::dragEnterEvent(event);
+}
+
+void UI::PlayerWindow::dragMoveEvent(QDragMoveEvent *event) {
+    event->acceptProposedAction();
+    QWidget::dragMoveEvent(event);
+}
+
+void UI::PlayerWindow::dragLeaveEvent(QDragLeaveEvent *event) {
+    event->accept();
+    QWidget::dragLeaveEvent(event);
+}
+
+void UI::PlayerWindow::dropEvent(QDropEvent *event) {
+    const QMimeData *mimeData = event->mimeData();
+    if (mimeData->hasUrls()) {
+        QStringList pathList;
+        QList<QUrl> urlList = mimeData->urls();
+
+        for (int i = 0; i < urlList.size(); ++i) {
+            QFileInfo fileInfo(urlList.at(i).toLocalFile());
+            if (fileInfo.isDir()) {
+                appendDirectory(fileInfo, pathList);
+            } else
+                pathList.append(urlList.at(i).toLocalFile());
+        }
+
+        openFiles(pathList);
+    }
+
+    QWidget::dropEvent(event);
+}
+
 QTreeWidgetItem *UI::PlayerWindow::createListItem(const QString &title, const QString &duration, const QString &album) {
     QTreeWidgetItem *item = new QTreeWidgetItem();
     item->setText(0, title);
     item->setText(1, duration);
     item->setText(2, album);
     return item;
+}
+
+void UI::PlayerWindow::openFiles(const QStringList &paths) {
+    for (auto it = paths.begin(); it != paths.end(); it++) {
+        twTracks->addTopLevelItem(createListItem(*it, "", ""));
+    }
+}
+
+void UI::PlayerWindow::appendDirectory(const QFileInfo &fileInfo, QStringList &paths) {
+
 }
