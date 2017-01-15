@@ -53,13 +53,21 @@ namespace UI {
 
         void onBtnPrevClicked();
 
-        void onBtnRepeatToggled(bool state);
+        void onBtnRepeatToggled(bool checked);
 
-        void onBtnShuffleToggled(bool state);
+        void onBtnShuffleToggled(bool checked);
 
         void onHsVolumeValueChanged(int value);
 
         void twTracksShowContextMenu(const QPoint &point);
+
+        void onAddFileMenuTriggered(bool checked);
+
+        void onAddFolderMenuTriggered(bool checked);
+
+        void onQuitMenuTriggered(bool checked);
+
+        void onRemoveMenuTriggered(bool checked);
 
     public:
 

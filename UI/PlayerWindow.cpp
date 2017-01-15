@@ -30,11 +30,11 @@ void UI::PlayerWindow::onBtnPrevClicked() {
         twTracks->setCurrentIndex(twTracks->indexAbove(twTracks->currentIndex()));
 }
 
-void UI::PlayerWindow::onBtnRepeatToggled(bool state) {
+void UI::PlayerWindow::onBtnRepeatToggled(bool checked) {
 
 }
 
-void UI::PlayerWindow::onBtnShuffleToggled(bool state) {
+void UI::PlayerWindow::onBtnShuffleToggled(bool checked) {
 
 }
 
@@ -42,18 +42,42 @@ void UI::PlayerWindow::onHsVolumeValueChanged(int value) {
     pbSeek->setValue(value);
 }
 
+void UI::PlayerWindow::onAddFileMenuTriggered(bool checked) {
+
+}
+
+void UI::PlayerWindow::onAddFolderMenuTriggered(bool checked) {
+
+}
+
+void UI::PlayerWindow::onQuitMenuTriggered(bool checked) {
+
+}
+
+void UI::PlayerWindow::onRemoveMenuTriggered(bool checked) {
+
+}
+
 void UI::PlayerWindow::twTracksShowContextMenu(const QPoint &point) {
     QPoint globalPoint = twTracks->mapToGlobal(point);
     QMenu twMenu;
     if (twTracks->selectedItems().size() > 0) {
-        twMenu.addAction("Remove");
+        QAction *item = twMenu.addAction("Remove");
+        connect(item, SIGNAL(triggered(bool)), this, SLOT(onRemoveMenuTriggered(bool)));
+
         twMenu.addSeparator();
     }
-    twMenu.addAction("Add File");
-    twMenu.addAction("Add Folder");
+    QAction *item = twMenu.addAction("Add File");
+    connect(item, SIGNAL(triggered(bool)), this, SLOT(onAddFileMenuTriggered(bool)));
+
+    item = twMenu.addAction("Add Folder");
+    connect(item, SIGNAL(triggered(bool)), this, SLOT(onAddFolderMenuTriggered(bool)));
+
     twMenu.addSeparator();
-    twMenu.addAction("Quit");
-    QAction *selectedItem = twMenu.exec(globalPoint);
+    item = twMenu.addAction("Quit");
+
+    connect(item, SIGNAL(triggered(bool)), this, SLOT(onQuitMenuTriggered(bool)));
+    twMenu.exec(globalPoint);
 }
 
 UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
