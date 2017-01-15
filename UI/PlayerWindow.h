@@ -73,6 +73,8 @@ namespace UI {
 
         void onRemoveMenuTriggered(bool checked);
 
+        void onPbUserChangeValue(int value);
+
     public:
 
         explicit PlayerWindow(QWidget *parent = 0);

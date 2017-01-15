@@ -40,6 +40,11 @@ void UI::PlayerWindow::onBtnShuffleToggled(bool checked) {
 }
 
 void UI::PlayerWindow::onHsVolumeValueChanged(int value) {
+
+}
+
+void UI::PlayerWindow::onPbUserChangeValue(int value) {
+    pbSeek->requestLabel(QString::number(value));
     pbSeek->setValue(value);
 }
 
@@ -145,6 +150,7 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     connect(twTracks, SIGNAL(customContextMenuRequested(
                                      const QPoint&)), this, SLOT(twTracksShowContextMenu(
                                                                          const QPoint&)));
+    connect(pbSeek, SIGNAL(userChangedValue(int)), this, SLOT(onPbUserChangeValue(int)));
 
     //Arrange controls
 
