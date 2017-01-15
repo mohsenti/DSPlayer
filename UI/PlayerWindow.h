@@ -30,7 +30,7 @@ namespace UI {
 
         QTreeWidgetItem *createListItem(const QString &title, const QString &duration, const QString &album);
 
-        void appendDirectory(const QFileInfo &fileInfo, QStringList &paths);
+        void appendDirectory(const QDir &dir, QStringList &paths);
 
         void openFiles(const QStringList &paths);
 

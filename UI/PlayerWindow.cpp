@@ -9,6 +9,7 @@
 #include <QDropEvent>
 #include <QUrl>
 #include <QDir>
+#include <QDebug>
 #include "PlayerWindow.h"
 
 void UI::PlayerWindow::onBtnPlayClicked() {
@@ -152,7 +153,7 @@ void UI::PlayerWindow::dropEvent(QDropEvent *event) {
         for (int i = 0; i < urlList.size(); ++i) {
             QFileInfo fileInfo(urlList.at(i).toLocalFile());
             if (fileInfo.isDir()) {
-                appendDirectory(fileInfo, pathList);
+                appendDirectory(QDir(fileInfo.absoluteFilePath()), pathList);
             } else
                 pathList.append(urlList.at(i).toLocalFile());
         }
@@ -177,6 +178,16 @@ void UI::PlayerWindow::openFiles(const QStringList &paths) {
     }
 }
 
-void UI::PlayerWindow::appendDirectory(const QFileInfo &fileInfo, QStringList &paths) {
-
+void UI::PlayerWindow::appendDirectory(const QDir &dir, QStringList &paths) {
+    QStringList files = dir.entryList();
+    for (auto it = files.begin(); it != files.end(); it++) {
+        QFileInfo fileInfo(dir, *it);
+        if ((*it).compare(".") == 0 || (*it).compare("..") == 0)
+            continue;
+        if (fileInfo.isDir()) {
+            appendDirectory(QDir(fileInfo.absoluteFilePath()), paths);
+        } else {
+            paths.append(fileInfo.absoluteFilePath());
+        }
+    }
 }
