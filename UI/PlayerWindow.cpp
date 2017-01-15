@@ -3,14 +3,14 @@
 //
 
 #include <iostream>
-#include <QtGui/QDesktopWidget>
-#include <QtGui/QStyle>
-#include <QtGui/QApplication>
+#include <QDesktopWidget>
+#include <QStyle>
+#include <QApplication>
 #include <QDropEvent>
 #include <QUrl>
 #include <QDir>
 #include <QDebug>
-#include <QtGui/QFileDialog>
+#include <QFileDialog>
 #include <Core/MimeType/MimeType.h>
 #include "PlayerWindow.h"
 

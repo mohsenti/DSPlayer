@@ -5,8 +5,12 @@
 #ifndef DSPLAYER_APPLICATION_H
 #define DSPLAYER_APPLICATION_H
 
-
+#ifdef Qt4
 #include <QApplication>
+#elif Qt5
+#include <QGuiApplication>
+#endif
+
 #include "PlayerWindow.h"
 #include "../Core/CoreTools.h"
 
