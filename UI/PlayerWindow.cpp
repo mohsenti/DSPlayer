@@ -102,11 +102,11 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     hbTopContainer = new QHBoxLayout();
 
     btnPlay = new QPushButton(QIcon::fromTheme("media-playback-start"), "", this);
+    btnStop = new QPushButton(QIcon::fromTheme("media-playback-stop"), "", this);
     btnPrev = new QPushButton(QIcon::fromTheme("media-skip-backward"), "", this);
     btnNext = new QPushButton(QIcon::fromTheme("media-skip-forward"), "", this);
-    btnStop = new QPushButton(QIcon::fromTheme("media-playback-stop"), "", this);
-    btnShuffle = new QPushButton(QIcon::fromTheme("media-playlist-shuffle"), "", this);
     btnRepeat = new QPushButton(QIcon::fromTheme("media-playlist-repeat"), "", this);
+    btnShuffle = new QPushButton(QIcon::fromTheme("media-playlist-shuffle"), "", this);
     hsVolume = new QSlider(Qt::Horizontal, this);
     pbSeek = new SeekBar(this);
 
