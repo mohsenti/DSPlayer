@@ -11,6 +11,7 @@
 #include <QDir>
 #include <QDebug>
 #include <QtGui/QFileDialog>
+#include <Core/MimeType/MimeType.h>
 #include "PlayerWindow.h"
 
 void UI::PlayerWindow::onBtnPlayClicked() {
@@ -230,7 +231,9 @@ QTreeWidgetItem *UI::PlayerWindow::createListItem(const QString &title, const QS
 
 void UI::PlayerWindow::openFiles(const QStringList &paths) {
     for (auto it = paths.begin(); it != paths.end(); it++) {
-        twTracks->addTopLevelItem(createListItem(*it, "", ""));
+        QFile file(*it);
+        if (Core::MimeType::isAudioFile(file))
+            twTracks->addTopLevelItem(createListItem(*it, "", ""));
     }
 }
 
