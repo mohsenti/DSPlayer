@@ -26,9 +26,6 @@ namespace UI {
 
         QTreeWidget *twTracks;
         QTreeWidgetItem *createListItem(const QString &title,const QString &duration,const QString &album);
-
-    private:
-        QTreeWidgetItem *currentTrack;
     private slots:
 
         void onBtnPlayClicked();
