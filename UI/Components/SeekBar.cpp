@@ -80,6 +80,7 @@ void UI::SeekBar::updateValue(int x) {
     if (value > maximum())
         value = maximum();
     setValue(value);
+    setFocus();
 
     label->setText(QString::number(value));
     label->setFixedWidth(label->fontMetrics().width(label->text()) + 20);
