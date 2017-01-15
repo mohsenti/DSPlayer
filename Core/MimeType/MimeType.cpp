@@ -26,5 +26,8 @@ bool Core::MimeType::isAudio(const char *first20bytes) {
     if (first20bytes[0] == 'I' && first20bytes[1] == 'D' && first20bytes[2] == '3') //MP3 with ID3 tag
         return true;
 
+    if (first20bytes[8] == 'W' && first20bytes[9] == 'A' && first20bytes[10] == 'V' && first20bytes[11] == 'E') //WAVE
+        return true;
+
     return false;
 }
