@@ -246,11 +246,12 @@ void UI::PlayerWindow::openFiles(const QStringList &paths) {
     for (auto it = paths.begin(); it != paths.end(); it++) {
         QMimeType mimeType = mimeDatabase.mimeTypeForFile(*it);
         if (mimeType.name().startsWith("audio")) {
+            QTreeWidgetItem *item;
             TagLib::FileRef file((*it).toStdString().c_str());
-            twTracks->addTopLevelItem(
-                    createListItem(file.tag()->title().toCString(),
-                                   Core::formatSecondsToTime(file.audioProperties()->lengthInSeconds()).c_str(),
-                                   file.tag()->album().toCString()));
+            item = createListItem(file.tag()->title().toCString(),
+                                  Core::formatSecondsToTime(file.audioProperties()->lengthInSeconds()).c_str(),
+                                  file.tag()->album().toCString());
+            twTracks->addTopLevelItem(item);
         }
     }
 }
