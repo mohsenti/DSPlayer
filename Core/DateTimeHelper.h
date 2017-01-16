@@ -9,19 +9,7 @@
 #include <sstream>
 
 namespace Core {
-    std::string formatSecondsToTime(const int seconds) {
-        int h, m, s;
-        s = seconds;
-        h = s / 3600;
-        s %= 3600;
-        m = s / 60;
-        s %= 60;
-        std::stringstream stream;
-        if (h > 0)
-            stream << h << ":";
-        stream << m << ":" << s;
-        return stream.str();
-    }
+    std::string formatSecondsToTime(const int &seconds);
 }
 
 #endif //DSPLAYER_DATETIMEHELPER_H
