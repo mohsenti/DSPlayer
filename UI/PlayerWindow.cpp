@@ -233,7 +233,7 @@ void UI::PlayerWindow::openFiles(const QStringList &paths) {
     QMimeDatabase mimeDatabase;
     for (auto it = paths.begin(); it != paths.end(); it++) {
         QMimeType mimeType = mimeDatabase.mimeTypeForFile(*it);
-        if (mimeType.name().startsWith("audio"))
+        if (QMediaPlayer::hasSupport(mimeType.name()))
             twTracks->addTopLevelItem(createListItem(*it, "", ""));
     }
 }
