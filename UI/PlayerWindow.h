@@ -6,7 +6,7 @@
 #define DSPLAYER_PLAYERWINDOW_H
 
 #include <QtWidgets>
-#include <QFileInfo>
+#include <QtMultimedia/QtMultimedia>
 #include <UI/Components/SeekBar.h>
 
 namespace UI {
@@ -18,10 +18,11 @@ namespace UI {
         QPushButton *btnPlay, *btnStop, *btnNext, *btnPrev, *btnShuffle, *btnRepeat;
         QSlider *hsVolume;
         SeekBar *pbSeek;
+        QTreeWidget *twTracks;
         QHBoxLayout *hbTopContainer;
         QVBoxLayout *vbMainContainer;
 
-        QTreeWidget *twTracks;
+        QMediaPlayer *player;
 
         QTreeWidgetItem *createListItem(const QString &title, const QString &duration, const QString &album);
 

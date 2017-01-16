@@ -164,6 +164,9 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     this->setGeometry(QStyle::alignedRect(Qt::LeftToRight, Qt::AlignCenter, this->size(),
                                           QApplication::desktop()->availableGeometry()));
     this->setAcceptDrops(true);
+
+    //Create and init player
+    player = new QMediaPlayer;
 }
 
 UI::PlayerWindow::~PlayerWindow() {
@@ -180,6 +183,7 @@ UI::PlayerWindow::~PlayerWindow() {
     delete pbSeek;
     delete twTracks;
 
+    delete player;
 }
 
 void UI::PlayerWindow::dragEnterEvent(QDragEnterEvent *event) {
