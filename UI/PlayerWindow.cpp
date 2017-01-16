@@ -2,15 +2,6 @@
 // Created by mohsen on 1/3/17.
 //
 
-#include <iostream>
-#include <QDesktopWidget>
-#include <QStyle>
-#include <QApplication>
-#include <QDropEvent>
-#include <QUrl>
-#include <QDir>
-#include <QDebug>
-#include <QFileDialog>
 #include "PlayerWindow.h"
 
 void UI::PlayerWindow::onBtnPlayClicked() {
