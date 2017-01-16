@@ -5,15 +5,7 @@
 #ifndef DSPLAYER_SEEKBAR_H
 #define DSPLAYER_SEEKBAR_H
 
-#ifdef Qt4
-#include <QProgressBar>
-#include <QWidget>
-#include <QLabel>
-#elif Qt5
 #include <QtWidgets>
-#endif
-
-#include <QTimer>
 
 namespace UI {
     class SeekBar : public QProgressBar {

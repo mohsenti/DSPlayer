@@ -3,9 +3,6 @@
 //
 
 #include "SeekBar.h"
-#include <QMouseEvent>
-#include <QDebug>
-#include <QStyle>
 
 UI::SeekBar::SeekBar(QWidget *parent) : QProgressBar(parent) {
     setTextVisible(false);
