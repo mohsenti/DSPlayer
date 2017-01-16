@@ -23,6 +23,7 @@ namespace UI {
         QVBoxLayout *vbMainContainer;
 
         QMediaPlayer *player;
+        QMediaPlaylist *playlist;
 
         QTreeWidgetItem *createListItem(const QString &title, const QString &duration, const QString &album);
 
@@ -66,6 +67,8 @@ namespace UI {
         void onRemoveMenuTriggered(bool checked);
 
         void onPbUserChangeValue(int value);
+
+        void onPlayerMetaDataChanged();
 
     public:
 

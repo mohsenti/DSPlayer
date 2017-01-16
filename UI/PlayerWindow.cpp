@@ -3,6 +3,8 @@
 //
 
 #include "PlayerWindow.h"
+#include <tag.h>
+#include <3rdParties/taglib/taglib/includes/fileref.h>
 
 void UI::PlayerWindow::onBtnPlayClicked() {
 
@@ -69,6 +71,10 @@ void UI::PlayerWindow::onRemoveMenuTriggered(bool checked) {
     }
 }
 
+void UI::PlayerWindow::onPlayerMetaDataChanged() {
+    qDebug() << player->availableMetaData();
+}
+
 void UI::PlayerWindow::twTracksShowContextMenu(const QPoint &point) {
     QPoint globalPoint = twTracks->mapToGlobal(point);
     QMenu twMenu;
@@ -120,7 +126,6 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     pbSeek->setMinimumWidth(250);
     pbSeek->setRange(0, 100);
     pbSeek->setValue(50);
-    pbSeek->setFormat("2:15");
 
     twTracks->setColumnCount(3);
     QStringList labels;
@@ -167,6 +172,10 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
 
     //Create and init player
     player = new QMediaPlayer;
+    playlist = new QMediaPlaylist;
+    player->setPlaylist(playlist);
+
+    connect(player, SIGNAL(metaDataChanged()), this, SLOT(onPlayerMetaDataChanged()));
 }
 
 UI::PlayerWindow::~PlayerWindow() {
@@ -183,6 +192,7 @@ UI::PlayerWindow::~PlayerWindow() {
     delete pbSeek;
     delete twTracks;
 
+    delete playlist;
     delete player;
 }
 
@@ -233,8 +243,13 @@ void UI::PlayerWindow::openFiles(const QStringList &paths) {
     QMimeDatabase mimeDatabase;
     for (auto it = paths.begin(); it != paths.end(); it++) {
         QMimeType mimeType = mimeDatabase.mimeTypeForFile(*it);
-        if (QMediaPlayer::hasSupport(mimeType.name()))
-            twTracks->addTopLevelItem(createListItem(*it, "", ""));
+        if (mimeType.name().startsWith("audio")) {
+            TagLib::FileRef file((*it).toStdString().c_str());
+            twTracks->addTopLevelItem(
+                    createListItem(file.tag()->title().toCString(),
+                                   QString::number(file.audioProperties()->lengthInSeconds()),
+                                   file.tag()->album().toCString()));
+        }
     }
 }
 
