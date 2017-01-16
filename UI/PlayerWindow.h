@@ -5,16 +5,7 @@
 #ifndef DSPLAYER_PLAYERWINDOW_H
 #define DSPLAYER_PLAYERWINDOW_H
 
-#ifdef Qt4
-#include <QtGui/QPushButton>
-#include <QtGui/QProgressBar>
-#include <QtGui/QHBoxLayout>
-#include <QtGui/QSlider>
-#include <QtGui/QTreeWidget>
-#include <QtGui/QMenu>
-#elif Qt5
 #include <QtWidgets>
-#endif
 #include <QFileInfo>
 #include <UI/Components/SeekBar.h>
 
