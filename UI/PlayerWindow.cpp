@@ -233,7 +233,9 @@ void UI::PlayerWindow::dropEvent(QDropEvent *event) {
 
 QTreeWidgetItem *UI::PlayerWindow::createListItem(const QString &title, const QString &duration, const QString &album) {
     QTreeWidgetItem *item = new QTreeWidgetItem();
-    item->setText(0, title);
+    if (title.isNull() || title.isEmpty())
+        item->setText(0, "-");
+    else item->setText(0, title);
     item->setText(1, duration);
     item->setText(2, album);
     return item;
@@ -247,7 +249,7 @@ void UI::PlayerWindow::openFiles(const QStringList &paths) {
             TagLib::FileRef file((*it).toStdString().c_str());
             twTracks->addTopLevelItem(
                     createListItem(file.tag()->title().toCString(),
-                                   QString::number(file.audioProperties()->lengthInSeconds()),
+                                   Core::formatSecondsToTime(file.audioProperties()->lengthInSeconds()).c_str(),
                                    file.tag()->album().toCString()));
         }
     }

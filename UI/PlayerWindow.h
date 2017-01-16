@@ -7,6 +7,7 @@
 
 #include <QtWidgets>
 #include <QtMultimedia/QtMultimedia>
+#include "Core/Core.h"
 #include <UI/Components/SeekBar.h>
 
 namespace UI {
