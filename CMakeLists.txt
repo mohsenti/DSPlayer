@@ -23,10 +23,10 @@ find_package(Qt5 5.0 REQUIRED Core Gui Widgets Multimedia)
 target_link_libraries(DSPlayer Qt5::Core Qt5::Gui Qt5::Widgets Qt5::Multimedia)
 
 #taglib
-add_subdirectory(3rdParties/taglib)
-add_dependencies(DSPlayer tag)
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdParties/taglib/taglib/includes)
-target_link_libraries(DSPlayer tag)
+#add_subdirectory(3rdParties/taglib)
+#add_dependencies(DSPlayer tag)
+#include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdParties/taglib/taglib/includes)
+#target_link_libraries(DSPlayer tag)
 
 #mediainfo
 add_subdirectory(3rdParties/mediainfo/MediaInfoLib/Project/CMake)
