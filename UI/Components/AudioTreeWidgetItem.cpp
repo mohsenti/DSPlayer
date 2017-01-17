@@ -37,4 +37,8 @@ namespace UI {
 
         MI->Close();
     }
+
+    QMediaContent AudioTreeWidgetItem::getMediaContent() const {
+        return QMediaContent(QUrl::fromLocalFile(filename));
+    }
 }

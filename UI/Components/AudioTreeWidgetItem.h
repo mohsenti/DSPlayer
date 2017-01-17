@@ -6,11 +6,14 @@
 #define DSPLAYER_AUDIOTREEWIDGETITEM_H
 
 #include <QtWidgets>
+#include <QtMultimedia/QMediaContent>
 
 namespace UI {
     class AudioTreeWidgetItem : public QTreeWidgetItem {
     public:
         explicit AudioTreeWidgetItem(const QString &fileName);
+
+        QMediaContent getMediaContent() const;
 
     private:
         QString filename;
