@@ -255,7 +255,7 @@ void UI::PlayerWindow::openFiles(const QStringList &paths) {
                             QString::fromStdWString(
                                     mediaInfo.Get(MediaInfoLib::Stream_General, 0, __T("Duration"),
                                                   MediaInfoLib::Info_Text,
-                                                  MediaInfoLib::Info_Name)).toInt(&dummy)
+                                                  MediaInfoLib::Info_Name)).toInt(&dummy) / 1000
                     ).c_str(),
                     QString::fromStdWString(mediaInfo.Get(MediaInfoLib::Stream_General, 0, __T("Album"),
                                                           MediaInfoLib::Info_Text,
