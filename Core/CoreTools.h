@@ -52,6 +52,12 @@ namespace Core {
         bool IsValid() {
             return object != nullptr;
         }
+
+        T *resetObject(T *obj) {
+            T *tmp = object;
+            object = obj;
+            return tmp;
+        }
     };
 }
 
