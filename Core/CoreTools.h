@@ -50,7 +50,7 @@ namespace Core {
         }
 
         bool IsValid() {
-            return object != NULL;
+            return object != nullptr;
         }
     };
 }
