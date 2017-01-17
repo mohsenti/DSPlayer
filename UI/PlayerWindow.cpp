@@ -70,10 +70,6 @@ void UI::PlayerWindow::onRemoveMenuTriggered(bool checked) {
     }
 }
 
-void UI::PlayerWindow::onPlayerMetaDataChanged() {
-    qDebug() << player->availableMetaData();
-}
-
 void UI::PlayerWindow::twTracksShowContextMenu(const QPoint &point) {
     QPoint globalPoint = twTracks->mapToGlobal(point);
     QMenu twMenu;
@@ -173,8 +169,6 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     player = new QMediaPlayer;
     playlist = new QMediaPlaylist;
     player->setPlaylist(playlist);
-
-    connect(player, SIGNAL(metaDataChanged()), this, SLOT(onPlayerMetaDataChanged()));
 }
 
 UI::PlayerWindow::~PlayerWindow() {

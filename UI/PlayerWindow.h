@@ -67,8 +67,6 @@ namespace UI {
 
         void onPbUserChangeValue(int value);
 
-        void onPlayerMetaDataChanged();
-
     public:
 
         explicit PlayerWindow(QWidget *parent = 0);
