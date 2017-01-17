@@ -13,19 +13,20 @@
 
 #include <string>
 #include <iostream>
-#include "ZenLib/Ztring.h" //Note : I need it for universal atoi, but you have not to use it for be able to use MediaInfoLib
+//#include "ZenLib/Ztring.h" //Note : I need it for universal atoi, but you have not to use it for be able to use MediaInfoLib
 #include "MediaInfo/MediaInfo.h"
 
+using namespace std;
 using namespace MediaInfoLib;
-using namespace ZenLib;
+//using namespace ZenLib;
 
 int main(int argc, char *argv[]) {
     //Information about MediaInfo
     MediaInfo MI;
-    ZenLib::Ztring To_Display = "";
+//    ZenLib::Ztring To_Display = "";
 
     //An example of how to use the library
-    To_Display += __T("\r\n\r\nOpen\r\n");
+//    To_Display += __T("\r\n\r\nOpen\r\n");
 //    MI.Open(__T("/home/mohsen/Downloads/Babak Gharibi - Leyla.mp3"));
 //    MI.Open(__T("/run/media/mohsen/MultiMedia/Music/Doa/Ashoora_www.YekMobile.com.amr"));
     MI.Open(__T("/home/mohsen/Downloads/Reza.Faghani-Leilaye.Man320-DornaMusic.Com.mp3"));
@@ -34,20 +35,23 @@ int main(int argc, char *argv[]) {
 //    To_Display += MI.Inform().c_str();
 //
 //    To_Display += __T("\r\n\r\nInform with Complete=true\r\n");
-    MI.Option(__T("Complete"), __T("1"));
-    To_Display += MI.Inform().c_str();
+//    MI.Option(__T("Complete"), __T("1"));
+//    To_Display += MI.Inform().c_str();
 //
 //    To_Display += __T("\r\n\r\nCustom Inform\r\n");
 //    MI.Option(__T("Inform"), __T("General;Example : FileSize=%FileSize%"));
 //    To_Display += MI.Inform().c_str();
 
-    To_Display += __T("\r\n\r\nGet with Stream=General and Parameter=\"FileSize\"\r\n");
-    To_Display += MI.Get(Stream_General, 0, __T("Title"), Info_Text, Info_Name).c_str();
+//    To_Display += __T("\r\n\r\nGet with Stream=General and Parameter=\"FileSize\"\r\n");
+//    To_Display += MI.Get(Stream_General, 0, __T("Title"), Info_Text, Info_Name).c_str();
+//
+//    To_Display += __T("\r\n\r\nClose\r\n");
 
-    To_Display += __T("\r\n\r\nClose\r\n");
+    wcout << MI.Get(Stream_General, 0, __T("Title"), Info_Text, Info_Name);
+
     MI.Close();
 
-    std::cout << To_Display.To_Local().c_str() << std::endl;
+//    std::cout << To_Display.To_Local().c_str() << std::endl;
 
     return 0;
 }
