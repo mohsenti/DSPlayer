@@ -71,7 +71,7 @@ void UI::SeekBar::resizeEvent(QResizeEvent *event) {
 }
 
 void UI::SeekBar::updateValue(int x) {
-    int value = x * 100 / (this->width());
+    int value = x * maximum() / (this->width());
     if (value < minimum())
         value = minimum();
     if (value > maximum())
