@@ -12,7 +12,9 @@ add_executable(DSPlayer ${SOURCE_FILES})
 #find_package(Qt4 4.4 REQUIRED QtCore QtGui)
 #target_link_libraries(DSPlayer Qt4::QtCore Qt4::QtGui)
 
+#Threads Support
 find_package(Threads)
+target_link_libraries(DSPlayer Threads::Threads)
 
 # Qt5 support
 add_definitions(-DQt5)

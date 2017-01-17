@@ -3,8 +3,6 @@
 //
 
 #include "PlayerWindow.h"
-#include <tag.h>
-#include <3rdParties/taglib/taglib/includes/fileref.h>
 
 void UI::PlayerWindow::onBtnPlayClicked() {
 
@@ -247,10 +245,21 @@ void UI::PlayerWindow::openFiles(const QStringList &paths) {
         QMimeType mimeType = mimeDatabase.mimeTypeForFile(*it);
         if (mimeType.name().startsWith("audio")) {
             QTreeWidgetItem *item;
-            TagLib::FileRef file((*it).toStdString().c_str());
-            item = createListItem(file.tag()->title().toCString(),
-                                  Core::formatSecondsToTime(file.audioProperties()->lengthInSeconds()).c_str(),
-                                  file.tag()->album().toCString());
+            mediaInfo.Open((*it).toStdWString());
+            bool dummy;
+            item = createListItem(
+                    QString::fromStdWString(
+                            mediaInfo.Get(MediaInfoLib::Stream_General, 0, __T("Title"), MediaInfoLib::Info_Text,
+                                          MediaInfoLib::Info_Name)),
+                    Core::formatSecondsToTime(
+                            QString::fromStdWString(
+                                    mediaInfo.Get(MediaInfoLib::Stream_General, 0, __T("Duration"),
+                                                  MediaInfoLib::Info_Text,
+                                                  MediaInfoLib::Info_Name)).toInt(&dummy)
+                    ).c_str(),
+                    QString::fromStdWString(mediaInfo.Get(MediaInfoLib::Stream_General, 0, __T("Album"),
+                                                          MediaInfoLib::Info_Text,
+                                                          MediaInfoLib::Info_Name)));
             twTracks->addTopLevelItem(item);
         }
     }
