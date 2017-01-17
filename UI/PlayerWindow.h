@@ -71,6 +71,8 @@ namespace UI {
 
         void onPlaylistMediaRemoved(int start, int end);
 
+        void onPlayerPositionChanged(qint64 position);
+
     public:
 
         explicit PlayerWindow(QWidget *parent = 0);

@@ -49,12 +49,28 @@ void UI::PlayerWindow::onHsVolumeValueChanged(int value) {
 }
 
 void UI::PlayerWindow::onPbUserChangeValue(int value) {
-    pbSeek->requestLabel(QString::number(value));
-    pbSeek->setValue(value);
+    if (player->isSeekable()) {
+        player->setPosition(value);
+        pbSeek->requestLabel(Core::formatSecondsToTime(value / 1000).c_str());
+    }
 }
 
 void UI::PlayerWindow::onPlaylistCurrentIndexChanged(int index) {
-    twTracks->setCurrentItem(twTracks->takeTopLevelItem(index));
+    if (index == -1 && btnRepeat->isChecked()) {
+        playlist->next();
+        index = 0;
+        player->play();
+    }
+    AudioTreeWidgetItem *audioItem = (AudioTreeWidgetItem *) twTracks->topLevelItem(index);
+    if (audioItem != nullptr) {
+        pbSeek->setValue(0);
+        pbSeek->setRange(0, audioItem->getDuration());
+    }
+    twTracks->setCurrentItem(audioItem);
+}
+
+void UI::PlayerWindow::onPlayerPositionChanged(qint64 position) {
+    pbSeek->setValue(position);
 }
 
 void UI::PlayerWindow::onPlaylistMediaRemoved(int start, int end) {
@@ -195,6 +211,7 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     player->setVolume(hsVolume->value());
     player->setPlaylist(playlist);
 
+    connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(onPlayerPositionChanged(qint64)));
     connect(playlist, SIGNAL(currentIndexChanged(int)), this, SLOT(onPlaylistCurrentIndexChanged(int)));
     connect(playlist, SIGNAL(mediaRemoved(int, int)), this, SLOT(onPlaylistMediaRemoved(int, int)));
 
