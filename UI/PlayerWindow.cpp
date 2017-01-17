@@ -40,6 +40,14 @@ void UI::PlayerWindow::onPbUserChangeValue(int value) {
     pbSeek->setValue(value);
 }
 
+void UI::PlayerWindow::onPlaylistCurrentIndexChanged(int index) {
+
+}
+
+void UI::PlayerWindow::onPlaylistMediaRemoved(int start, int end) {
+
+}
+
 void UI::PlayerWindow::onAddFileMenuTriggered(bool checked) {
     QFileDialog fileDialog(this);
     fileDialog.setFileMode(QFileDialog::FileMode::ExistingFiles);
@@ -169,6 +177,9 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     player = new QMediaPlayer;
     playlist = new QMediaPlaylist;
     player->setPlaylist(playlist);
+
+    connect(playlist, SIGNAL(currentIndexChanged(int)), this, SLOT(onPlaylistCurrentIndexChanged(int)));
+    connect(playlist, SIGNAL(mediaRemoved(int, int)), this, SLOT(onPlaylistMediaRemoved(int, int)));
 }
 
 UI::PlayerWindow::~PlayerWindow() {

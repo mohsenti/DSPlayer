@@ -67,6 +67,10 @@ namespace UI {
 
         void onPbUserChangeValue(int value);
 
+        void onPlaylistCurrentIndexChanged(int index);
+
+        void onPlaylistMediaRemoved(int start, int end);
+
     public:
 
         explicit PlayerWindow(QWidget *parent = 0);
