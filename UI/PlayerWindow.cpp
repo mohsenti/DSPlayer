@@ -6,21 +6,22 @@
 #include "PlayerWindow.h"
 
 void UI::PlayerWindow::onBtnPlayClicked() {
-
+    if (player->state() == QMediaPlayer::PlayingState)
+        player->pause();
+    else
+        player->play();
 }
 
 void UI::PlayerWindow::onBtnStopClicked() {
-
+    player->stop();
 }
 
 void UI::PlayerWindow::onBtnNextClicked() {
-    if (twTracks->currentIndex().row() < twTracks->topLevelItemCount() - 1)
-        twTracks->setCurrentIndex(twTracks->indexBelow(twTracks->currentIndex()));
+    playlist->next();
 }
 
 void UI::PlayerWindow::onBtnPrevClicked() {
-    if (twTracks->currentIndex().row() > 0)
-        twTracks->setCurrentIndex(twTracks->indexAbove(twTracks->currentIndex()));
+    playlist->previous();
 }
 
 void UI::PlayerWindow::onBtnRepeatToggled(bool checked) {
@@ -28,11 +29,13 @@ void UI::PlayerWindow::onBtnRepeatToggled(bool checked) {
 }
 
 void UI::PlayerWindow::onBtnShuffleToggled(bool checked) {
-
+    if (checked)
+        playlist->setPlaybackMode(QMediaPlaylist::Random);
+    else playlist->setPlaybackMode(QMediaPlaylist::Sequential);
 }
 
 void UI::PlayerWindow::onHsVolumeValueChanged(int value) {
-
+    player->setVolume(value);
 }
 
 void UI::PlayerWindow::onPbUserChangeValue(int value) {
@@ -41,7 +44,7 @@ void UI::PlayerWindow::onPbUserChangeValue(int value) {
 }
 
 void UI::PlayerWindow::onPlaylistCurrentIndexChanged(int index) {
-
+    twTracks->setCurrentItem(twTracks->takeTopLevelItem(index));
 }
 
 void UI::PlayerWindow::onPlaylistMediaRemoved(int start, int end) {
@@ -124,11 +127,12 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
 
     hsVolume->setFixedWidth(100);
     hsVolume->setRange(0, 100);
+    //Todo: restore volume from previous session
     hsVolume->setValue(50);
 
     pbSeek->setMinimumWidth(250);
     pbSeek->setRange(0, 100);
-    pbSeek->setValue(50);
+    pbSeek->setValue(0);
 
     twTracks->setColumnCount(3);
     QStringList labels;
@@ -176,10 +180,14 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     //Create and init player
     player = new QMediaPlayer;
     playlist = new QMediaPlaylist;
+
+    player->setVolume(hsVolume->value());
     player->setPlaylist(playlist);
 
     connect(playlist, SIGNAL(currentIndexChanged(int)), this, SLOT(onPlaylistCurrentIndexChanged(int)));
     connect(playlist, SIGNAL(mediaRemoved(int, int)), this, SLOT(onPlaylistMediaRemoved(int, int)));
+
+    //Todo: restore last playlist
 }
 
 UI::PlayerWindow::~PlayerWindow() {
