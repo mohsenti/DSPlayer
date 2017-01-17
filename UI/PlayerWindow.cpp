@@ -6,21 +6,31 @@
 #include "PlayerWindow.h"
 
 void UI::PlayerWindow::onBtnPlayClicked() {
-    if (player->state() == QMediaPlayer::PlayingState)
+    if (playlist->mediaCount() == 0)
+        return;
+    if (player->state() == QMediaPlayer::PlayingState) {
         player->pause();
-    else
+        btnPlay->setIcon(QIcon::fromTheme("media-playback-pause"));
+    } else {
         player->play();
+        btnPlay->setIcon(QIcon::fromTheme("media-playback-start"));
+    }
 }
 
 void UI::PlayerWindow::onBtnStopClicked() {
-    player->stop();
+    if (player->state() == QMediaPlayer::PlayingState || player->state() == QMediaPlayer::PausedState)
+        player->stop();
 }
 
 void UI::PlayerWindow::onBtnNextClicked() {
+    if (playlist->mediaCount() == 0)
+        return;
     playlist->next();
 }
 
 void UI::PlayerWindow::onBtnPrevClicked() {
+    if (playlist->mediaCount() == 0)
+        return;
     playlist->previous();
 }
 
@@ -48,7 +58,8 @@ void UI::PlayerWindow::onPlaylistCurrentIndexChanged(int index) {
 }
 
 void UI::PlayerWindow::onPlaylistMediaRemoved(int start, int end) {
-
+    for (int i = start; i <= end; i++)
+        delete twTracks->takeTopLevelItem(i);
 }
 
 void UI::PlayerWindow::onAddFileMenuTriggered(bool checked) {
