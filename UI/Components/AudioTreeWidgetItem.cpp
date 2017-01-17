@@ -25,11 +25,11 @@ namespace UI {
         setText(0, QString::fromStdWString(
                 MI->Get(MediaInfoLib::Stream_General, 0, __T("Title"), MediaInfoLib::Info_Text,
                         MediaInfoLib::Info_Name)));
-        setText(1, Core::formatSecondsToTime(
-                QString::fromStdWString(
-                        MI->Get(MediaInfoLib::Stream_General, 0, __T("Duration"),
-                                MediaInfoLib::Info_Text,
-                                MediaInfoLib::Info_Name)).toInt(&dummy) / 1000).c_str());
+        this->duration = QString::fromStdWString(
+                MI->Get(MediaInfoLib::Stream_General, 0, __T("Duration"),
+                        MediaInfoLib::Info_Text,
+                        MediaInfoLib::Info_Name)).toInt(&dummy);
+        setText(1, Core::formatSecondsToTime(this->duration / 1000).c_str());
 
         setText(2, QString::fromStdWString(MI->Get(MediaInfoLib::Stream_General, 0, __T("Album"),
                                                    MediaInfoLib::Info_Text,
@@ -40,5 +40,9 @@ namespace UI {
 
     QMediaContent AudioTreeWidgetItem::getMediaContent() const {
         return QMediaContent(QUrl::fromLocalFile(filename));
+    }
+
+    int AudioTreeWidgetItem::getDuration() {
+        return duration;
     }
 }
