@@ -12,6 +12,8 @@ add_executable(DSPlayer ${SOURCE_FILES})
 #find_package(Qt4 4.4 REQUIRED QtCore QtGui)
 #target_link_libraries(DSPlayer Qt4::QtCore Qt4::QtGui)
 
+find_package(Threads)
+
 # Qt5 support
 add_definitions(-DQt5)
 add_definitions(-DUSE_QT)
@@ -24,5 +26,13 @@ add_dependencies(DSPlayer tag)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdParties/taglib/taglib/includes)
 target_link_libraries(DSPlayer tag)
 
+#mediainfo
+add_subdirectory(3rdParties/mediainfo/MediaInfoLib/Project/CMake)
+add_dependencies(DSPlayer mediainfo)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdParties/mediainfo/includes)
+target_link_libraries(DSPlayer mediainfo)
+
 
 #add_subdirectory(OldGtkmmTests)
+
+add_subdirectory(Tests)
