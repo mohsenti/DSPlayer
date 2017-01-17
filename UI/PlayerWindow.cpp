@@ -2,6 +2,7 @@
 // Created by mohsen on 1/3/17.
 //
 
+#include <UI/Components/AudioTreeWidgetItem.h>
 #include "PlayerWindow.h"
 
 void UI::PlayerWindow::onBtnPlayClicked() {
@@ -229,37 +230,13 @@ void UI::PlayerWindow::dropEvent(QDropEvent *event) {
     QWidget::dropEvent(event);
 }
 
-QTreeWidgetItem *UI::PlayerWindow::createListItem(const QString &title, const QString &duration, const QString &album) {
-    QTreeWidgetItem *item = new QTreeWidgetItem();
-    if (title.isNull() || title.isEmpty())
-        item->setText(0, "-");
-    else item->setText(0, title);
-    item->setText(1, duration);
-    item->setText(2, album);
-    return item;
-}
-
 void UI::PlayerWindow::openFiles(const QStringList &paths) {
     QMimeDatabase mimeDatabase;
     for (auto it = paths.begin(); it != paths.end(); it++) {
         QMimeType mimeType = mimeDatabase.mimeTypeForFile(*it);
         if (mimeType.name().startsWith("audio")) {
-            QTreeWidgetItem *item;
-            mediaInfo.Open((*it).toStdWString());
-            bool dummy;
-            item = createListItem(
-                    QString::fromStdWString(
-                            mediaInfo.Get(MediaInfoLib::Stream_General, 0, __T("Title"), MediaInfoLib::Info_Text,
-                                          MediaInfoLib::Info_Name)),
-                    Core::formatSecondsToTime(
-                            QString::fromStdWString(
-                                    mediaInfo.Get(MediaInfoLib::Stream_General, 0, __T("Duration"),
-                                                  MediaInfoLib::Info_Text,
-                                                  MediaInfoLib::Info_Name)).toInt(&dummy) / 1000
-                    ).c_str(),
-                    QString::fromStdWString(mediaInfo.Get(MediaInfoLib::Stream_General, 0, __T("Album"),
-                                                          MediaInfoLib::Info_Text,
-                                                          MediaInfoLib::Info_Name)));
+            AudioTreeWidgetItem *item;
+            item = new AudioTreeWidgetItem(*it);
             twTracks->addTopLevelItem(item);
         }
     }

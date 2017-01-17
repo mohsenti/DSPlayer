@@ -9,7 +9,6 @@
 #include <QtMultimedia/QtMultimedia>
 #include "Core/Core.h"
 #include <UI/Components/SeekBar.h>
-#include "MediaInfo.h"
 
 namespace UI {
 
@@ -26,10 +25,6 @@ namespace UI {
 
         QMediaPlayer *player;
         QMediaPlaylist *playlist;
-
-        MediaInfoLib::MediaInfo mediaInfo;
-
-        QTreeWidgetItem *createListItem(const QString &title, const QString &duration, const QString &album);
 
         void appendDirectory(const QDir &dir, QStringList &paths);
 
