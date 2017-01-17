@@ -12,14 +12,6 @@ namespace {
     static MediaInfo MI;
 }
 
-QString operator=(String aString) {
-    return QString::fromStdWString(aString);
-}
-
-String operator=(QString aString) {
-    return aString.toStdWString();
-}
-
 namespace UI {
     AudioTreeWidgetItem::AudioTreeWidgetItem(const QString &fileName) : QTreeWidgetItem() {
         this->filename = fileName;
