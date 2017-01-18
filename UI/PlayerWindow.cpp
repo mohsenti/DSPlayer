@@ -10,10 +10,10 @@ void UI::PlayerWindow::onBtnPlayClicked() {
         return;
     if (player->state() == QMediaPlayer::PlayingState) {
         player->pause();
-        btnPlay->setIcon(QIcon::fromTheme("media-playback-pause"));
+        btnPlay->setIcon(QIcon::fromTheme("media-playback-start"));
     } else {
         player->play();
-        btnPlay->setIcon(QIcon::fromTheme("media-playback-start"));
+        btnPlay->setIcon(QIcon::fromTheme("media-playback-pause"));
     }
 }
 
