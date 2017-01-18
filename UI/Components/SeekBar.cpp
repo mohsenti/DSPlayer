@@ -53,9 +53,13 @@ void UI::SeekBar::mouseMoveEvent(QMouseEvent *event) {
     QWidget::mouseMoveEvent(event);
 }
 
+#ifndef QT_NO_WHEELEVENT
+
 void UI::SeekBar::wheelEvent(QWheelEvent *event) {
     QWidget::wheelEvent(event);
 }
+
+#endif
 
 void UI::SeekBar::enterEvent(QEvent *event) {
     QWidget::enterEvent(event);
