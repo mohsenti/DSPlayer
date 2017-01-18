@@ -280,6 +280,7 @@ void UI::PlayerWindow::openFiles(const QStringList &paths) {
             item = new AudioTreeWidgetItem(*it);
             twTracks->addTopLevelItem(item);
             playlist->addMedia(item->getMediaContent());
+            QApplication::instance()->processEvents();
         }
     }
 }
