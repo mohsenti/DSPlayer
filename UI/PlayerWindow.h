@@ -30,6 +30,8 @@ namespace UI {
 
         void openFiles(const QStringList &paths);
 
+        void savePlaylist(const QString &fileName);
+        void restorePlaylist(const QString &fileName);
     protected:
         virtual void dragEnterEvent(QDragEnterEvent *event) override;
 

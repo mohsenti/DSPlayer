@@ -4,6 +4,7 @@
 
 #include <UI/Components/AudioTreeWidgetItem.h>
 #include "PlayerWindow.h"
+#include <sstream>
 
 void UI::PlayerWindow::onBtnPlayClicked() {
     if (playlist->mediaCount() == 0)
@@ -216,10 +217,12 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     connect(playlist, SIGNAL(mediaRemoved(int, int)), this, SLOT(onPlaylistMediaRemoved(int, int)));
 
     //Todo: restore last playlist
+    restorePlaylist("tmp.pl");
 }
 
 UI::PlayerWindow::~PlayerWindow() {
 
+    savePlaylist("tmp.pl");
     //destroy controls
 
     delete hbTopContainer;
@@ -272,6 +275,7 @@ void UI::PlayerWindow::dropEvent(QDropEvent *event) {
 }
 
 void UI::PlayerWindow::openFiles(const QStringList &paths) {
+    qDebug() << paths;
     QMimeDatabase mimeDatabase;
     for (auto it = paths.begin(); it != paths.end(); it++) {
         QMimeType mimeType = mimeDatabase.mimeTypeForFile(*it);
@@ -297,4 +301,28 @@ void UI::PlayerWindow::appendDirectory(const QDir &dir, QStringList &paths) {
             paths.append(fileInfo.absoluteFilePath());
         }
     }
+}
+
+void UI::PlayerWindow::savePlaylist(const QString &fileName) {
+    QFile file(fileName);
+    file.open(QFile::OpenModeFlag::WriteOnly);
+    std::stringstream stream;
+    for (int i = 0; i < twTracks->topLevelItemCount(); ++i) {
+        AudioTreeWidgetItem *item = (AudioTreeWidgetItem *) twTracks->topLevelItem(i);
+        stream << item->getFileName().toStdString() << "\r\n";
+    }
+    file.write(stream.str().c_str());
+    file.close();
+}
+
+void UI::PlayerWindow::restorePlaylist(const QString &fileName) {
+    QFile file(fileName);
+    file.open(QFile::OpenModeFlag::ReadOnly);
+    QStringList paths;
+    while (!file.atEnd()) {
+        auto data = file.readLine();
+        paths.append(QString::fromLocal8Bit(data.remove(data.lastIndexOf('\r'), 2)));
+    }
+    file.close();
+    openFiles(paths);
 }
