@@ -272,6 +272,9 @@ UI::PlayerWindow::~PlayerWindow() {
     saveApplicationState("tmp.pl");
     //destroy controls
 
+    delete playlist;
+    delete player;
+
     delete hbTopContainer;
     delete vbMainContainer;
     delete btnPlay;
@@ -282,8 +285,6 @@ UI::PlayerWindow::~PlayerWindow() {
     delete pbSeek;
     delete twTracks;
 
-    delete playlist;
-    delete player;
 }
 
 void UI::PlayerWindow::dragEnterEvent(QDragEnterEvent *event) {
