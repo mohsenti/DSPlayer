@@ -86,6 +86,16 @@ void UI::PlayerWindow::onPlayerStateChanged(QMediaPlayer::State newState) {
             return;
         updateAudioItemIcon(item, newState);
     }
+
+    switch (newState) {
+        case QMediaPlayer::State::StoppedState:
+        case QMediaPlayer::State::PausedState:
+            btnPlay->setIcon(QIcon::fromTheme("media-playback-start"));
+            break;
+        case QMediaPlayer::State::PlayingState:
+            btnPlay->setIcon(QIcon::fromTheme("media-playback-pause"));
+            break;
+    }
 }
 
 void UI::PlayerWindow::onPlaylistMediaRemoved(int start, int end) {
