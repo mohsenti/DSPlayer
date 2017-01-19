@@ -130,7 +130,8 @@ void UI::PlayerWindow::onQuitMenuTriggered(bool checked) {
 void UI::PlayerWindow::onRemoveMenuTriggered(bool checked) {
     auto list = twTracks->selectedItems();
     for (auto it = list.begin(); it != list.end(); it++) {
-        delete *it;
+        int index = twTracks->indexOfTopLevelItem(*it);
+        playlist->removeMedia(index);
     }
 }
 
