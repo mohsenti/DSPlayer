@@ -61,7 +61,7 @@ namespace UI {
 
         void onTwTracksShowContextMenu(const QPoint &point);
 
-        void onTwTracksItemDoubleClicked(QTreeWidgetItem *item, int column);
+        void onTwTracksItemActivated(QTreeWidgetItem *item, int column);
 
         void onAddFileMenuTriggered(bool checked);
 
