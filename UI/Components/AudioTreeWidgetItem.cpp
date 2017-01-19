@@ -22,20 +22,24 @@ namespace UI {
         MI->Open(this->filename.toStdWString());
 
         bool dummy;
-        setText(0, QString::fromStdWString(
+        setText(1, QString::fromStdWString(
                 MI->Get(MediaInfoLib::Stream_General, 0, __T("Title"), MediaInfoLib::Info_Text,
                         MediaInfoLib::Info_Name)));
         this->duration = QString::fromStdWString(
                 MI->Get(MediaInfoLib::Stream_General, 0, __T("Duration"),
                         MediaInfoLib::Info_Text,
                         MediaInfoLib::Info_Name)).toInt(&dummy);
-        setText(1, Core::formatSecondsToTime(this->duration / 1000).c_str());
+        setText(2, Core::formatSecondsToTime(this->duration / 1000).c_str());
 
-        setText(2, QString::fromStdWString(MI->Get(MediaInfoLib::Stream_General, 0, __T("Album"),
+        setText(3, QString::fromStdWString(MI->Get(MediaInfoLib::Stream_General, 0, __T("Album"),
                                                    MediaInfoLib::Info_Text,
                                                    MediaInfoLib::Info_Name)));
 
         MI->Close();
+    }
+
+    void AudioTreeWidgetItem::setIcon(const QIcon &icon) {
+        QTreeWidgetItem::setIcon(0, icon);
     }
 
     QMediaContent AudioTreeWidgetItem::getMediaContent() const {

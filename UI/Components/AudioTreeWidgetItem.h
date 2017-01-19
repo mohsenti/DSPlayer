@@ -16,7 +16,11 @@ namespace UI {
         QMediaContent getMediaContent() const;
 
         int getDuration();
+
         QString getFileName();
+
+        void setIcon(const QIcon &icon);
+
     private:
         QString filename;
         int duration;
