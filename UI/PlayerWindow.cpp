@@ -90,10 +90,15 @@ void UI::PlayerWindow::onPlayerStateChanged(QMediaPlayer::State newState) {
 
     switch (newState) {
         case QMediaPlayer::State::StoppedState:
+            trayIcon->setIcon(QIcon::fromTheme("media-playback-stop"));
+            btnPlay->setIcon(QIcon::fromTheme("media-playback-start"));
+            break;
         case QMediaPlayer::State::PausedState:
+            trayIcon->setIcon(QIcon::fromTheme("media-playback-pause"));
             btnPlay->setIcon(QIcon::fromTheme("media-playback-start"));
             break;
         case QMediaPlayer::State::PlayingState:
+            trayIcon->setIcon(QIcon::fromTheme("media-playback-start"));
             btnPlay->setIcon(QIcon::fromTheme("media-playback-pause"));
             break;
     }
@@ -194,6 +199,8 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
 
     twTracks = new QTreeWidget(this);
 
+    trayIcon = new QSystemTrayIcon(this);
+
     //Init controls
 
     btnShuffle->setCheckable(true);
@@ -214,6 +221,9 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     twTracks->setHeaderLabels(labels);
     twTracks->setContextMenuPolicy(Qt::CustomContextMenu);
     twTracks->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
+
+    trayIcon->setIcon(QIcon::fromTheme("media-playback-stop"));
+    trayIcon->show();
 
     //Init signals
 
@@ -287,6 +297,8 @@ UI::PlayerWindow::~PlayerWindow() {
     delete hsVolume;
     delete pbSeek;
     delete twTracks;
+
+    delete trayIcon;
 
 }
 

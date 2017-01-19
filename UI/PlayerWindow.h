@@ -27,6 +27,8 @@ namespace UI {
         QMediaPlayer *player;
         QMediaPlaylist *playlist;
 
+        QSystemTrayIcon *trayIcon;
+
         void appendDirectory(const QDir &dir, QStringList &paths);
 
         void openFiles(const QStringList &paths);
