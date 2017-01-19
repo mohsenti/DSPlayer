@@ -3,7 +3,7 @@ project(DSPlayer)
 #set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
-set(SOURCE_FILES main.cpp UI/Application.cpp UI/Application.h UI/PlayerWindow.cpp UI/PlayerWindow.h Core/CoreTools.h UI/Components/SeekBar.cpp UI/Components/SeekBar.h Core/DateTimeHelper.h Core/Core.h Core/DateTimeHelper.cpp UI/Components/AudioTreeWidgetItem.cpp UI/Components/AudioTreeWidgetItem.h)
+set(SOURCE_FILES main.cpp UI/Application.cpp UI/Application.h UI/PlayerWindow.cpp UI/PlayerWindow.h Core/CoreTools.h UI/Components/SeekBar.cpp UI/Components/SeekBar.h Core/DateTimeHelper.h Core/Core.h Core/DateTimeHelper.cpp UI/Components/AudioTreeWidgetItem.cpp UI/Components/AudioTreeWidgetItem.h Core/CoreTypes.h)
 add_executable(DSPlayer ${SOURCE_FILES})
 
 # Qt4 support

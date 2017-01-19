@@ -4,6 +4,7 @@
 
 #include "PlayerWindow.h"
 #include <sstream>
+#include <Core/CoreTypes.h>
 
 void UI::PlayerWindow::onBtnPlayClicked() {
     if (playlist->mediaCount() == 0)
@@ -263,12 +264,12 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     connect(playlist, SIGNAL(mediaRemoved(int, int)), this, SLOT(onPlaylistMediaRemoved(int, int)));
 
     //Todo: restore last playlist
-    restorePlaylist("tmp.pl");
+    restoreApplicationState("tmp.pl");
 }
 
 UI::PlayerWindow::~PlayerWindow() {
 
-    savePlaylist("tmp.pl");
+    saveApplicationState("tmp.pl");
     //destroy controls
 
     delete hbTopContainer;
@@ -385,4 +386,49 @@ void UI::PlayerWindow::updateAudioItemIcon(UI::AudioTreeWidgetItem *item, QMedia
             item->setIcon(QIcon::fromTheme("media-playback-pause"));
             break;
     }
+}
+
+void UI::PlayerWindow::saveApplicationState(const QString &fileName) {
+    Core::ApplicationState state;
+    state.playerState = 0; // future use
+    player->pause();
+    state.currentItemIndex = playlist->currentIndex();
+    state.volume = hsVolume->value();
+    state.seekBarPosition = pbSeek->value();
+    state.playlistItemsCount = twTracks->topLevelItemCount(); // future use
+    state.shuffle = btnShuffle->isChecked();
+    state.repeat = btnRepeat->isChecked();
+
+    QFile file(fileName);
+    file.open(QFile::OpenModeFlag::WriteOnly);
+    std::stringstream stream;
+    for (int i = 0; i < twTracks->topLevelItemCount(); ++i) {
+        AudioTreeWidgetItem *item = (AudioTreeWidgetItem *) twTracks->topLevelItem(i);
+        stream << item->getFileName().toStdString() << "\r\n";
+    }
+    file.write((char *) &state, sizeof(Core::ApplicationState));
+    file.write(stream.str().c_str());
+    file.close();
+
+}
+
+void UI::PlayerWindow::restoreApplicationState(const QString &fileName) {
+    Core::ApplicationState state;
+    QFile file(fileName);
+    if (!file.exists())
+        return;
+    file.open(QFile::OpenModeFlag::ReadOnly);
+    QStringList paths;
+    file.read((char *) &state, sizeof(Core::ApplicationState));
+    while (!file.atEnd()) {
+        auto data = file.readLine();
+        paths.append(QString::fromLocal8Bit(data.remove(data.lastIndexOf('\r'), 2)));
+    }
+    file.close();
+    openFiles(paths);
+    playlist->setCurrentIndex(state.currentItemIndex);
+    player->setPosition(state.seekBarPosition);
+    hsVolume->setValue(state.volume);
+    btnRepeat->setChecked(state.repeat);
+    btnShuffle->setChecked(state.shuffle);
 }

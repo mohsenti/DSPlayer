@@ -35,7 +35,11 @@ namespace UI {
 
         void restorePlaylist(const QString &fileName);
 
-        void updateAudioItemIcon(AudioTreeWidgetItem *item,QMediaPlayer::State newState);
+        void saveApplicationState(const QString &fileName);
+
+        void restoreApplicationState(const QString &fileName);
+
+        void updateAudioItemIcon(AudioTreeWidgetItem *item, QMediaPlayer::State newState);
 
     protected:
         virtual void dragEnterEvent(QDragEnterEvent *event) override;
