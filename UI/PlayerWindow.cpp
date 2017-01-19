@@ -137,6 +137,8 @@ void UI::PlayerWindow::onRemoveMenuTriggered(bool checked) {
 void UI::PlayerWindow::onTwTracksItemActivated(QTreeWidgetItem *item, int column) {
     int index = twTracks->indexOfTopLevelItem(item);
     if (index != playlist->currentIndex()) {
+        updateAudioItemIcon((AudioTreeWidgetItem *) twTracks->topLevelItem(playlist->currentIndex()),
+                            QMediaPlayer::State::StoppedState);
         playlist->setCurrentIndex(index);
         player->play();
     } else {
@@ -376,6 +378,8 @@ void UI::PlayerWindow::restorePlaylist(const QString &fileName) {
 }
 
 void UI::PlayerWindow::updateAudioItemIcon(UI::AudioTreeWidgetItem *item, QMediaPlayer::State newState) {
+    if (item == nullptr)
+        return;
     switch (newState) {
         case QMediaPlayer::State::StoppedState:
             item->setIcon(QIcon());
