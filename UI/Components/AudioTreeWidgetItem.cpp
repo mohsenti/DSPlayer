@@ -45,4 +45,8 @@ namespace UI {
     int AudioTreeWidgetItem::getDuration() {
         return duration;
     }
+
+    QString AudioTreeWidgetItem::getFileName() {
+        return filename;
+    }
 }

@@ -16,7 +16,7 @@ namespace UI {
         QMediaContent getMediaContent() const;
 
         int getDuration();
-
+        QString getFileName();
     private:
         QString filename;
         int duration;
