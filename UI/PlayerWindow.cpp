@@ -71,7 +71,27 @@ void UI::PlayerWindow::onPlaylistCurrentIndexChanged(int index) {
 }
 
 void UI::PlayerWindow::onPlayerPositionChanged(qint64 position) {
-    pbSeek->setValue(position);
+    pbSeek->setValue((int) position);
+}
+
+void UI::PlayerWindow::onPlayerStateChanged(QMediaPlayer::State newState) {
+    int index = playlist->currentIndex();
+    if (index >= 0) {
+        AudioTreeWidgetItem *item = (AudioTreeWidgetItem *) twTracks->topLevelItem(index);
+        if (item == nullptr)
+            return;
+        switch (newState) {
+            case QMediaPlayer::State::StoppedState:
+                item->setIcon(QIcon());
+                break;
+            case QMediaPlayer::State::PlayingState:
+                item->setIcon(QIcon::fromTheme("media-playback-start"));
+                break;
+            case QMediaPlayer::State::PausedState:
+                item->setIcon(QIcon::fromTheme("media-playback-pause"));
+                break;
+        }
+    }
 }
 
 void UI::PlayerWindow::onPlaylistMediaRemoved(int start, int end) {
@@ -221,6 +241,7 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     player->setPlaylist(playlist);
 
     connect(player, SIGNAL(positionChanged(qint64)), this, SLOT(onPlayerPositionChanged(qint64)));
+    connect(player, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(onPlayerStateChanged(QMediaPlayer::State)));
     connect(playlist, SIGNAL(currentIndexChanged(int)), this, SLOT(onPlaylistCurrentIndexChanged(int)));
     connect(playlist, SIGNAL(mediaRemoved(int, int)), this, SLOT(onPlaylistMediaRemoved(int, int)));
 

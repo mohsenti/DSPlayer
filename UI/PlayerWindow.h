@@ -79,6 +79,8 @@ namespace UI {
 
         void onPlayerPositionChanged(qint64 position);
 
+        void onPlayerStateChanged(QMediaPlayer::State newState);
+
     public:
 
         explicit PlayerWindow(QWidget *parent = 0);
