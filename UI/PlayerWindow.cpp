@@ -167,9 +167,9 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     pbSeek->setRange(0, 100);
     pbSeek->setValue(0);
 
-    twTracks->setColumnCount(3);
+    twTracks->setColumnCount(4);
     QStringList labels;
-    labels << "Track" << "Duration" << "Album";
+    labels << "State" << "Track" << "Duration" << "Album";
     twTracks->setHeaderLabels(labels);
     twTracks->setContextMenuPolicy(Qt::CustomContextMenu);
     twTracks->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
