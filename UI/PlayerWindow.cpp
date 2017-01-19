@@ -114,7 +114,7 @@ void UI::PlayerWindow::onTwTracksItemDoubleClicked(QTreeWidgetItem *item, int co
     playlist->setCurrentIndex(index);
 }
 
-void UI::PlayerWindow::twTracksShowContextMenu(const QPoint &point) {
+void UI::PlayerWindow::onTwTracksShowContextMenu(const QPoint &point) {
     QPoint globalPoint = twTracks->mapToGlobal(point);
     QMenu twMenu;
     if (twTracks->selectedItems().size() > 0) {
@@ -184,7 +184,7 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     connect(btnShuffle, SIGNAL(toggled(bool)), this, SLOT(onBtnShuffleToggled(bool)));
     connect(hsVolume, SIGNAL(valueChanged(int)), this, SLOT(onHsVolumeValueChanged(int)));
     connect(twTracks, SIGNAL(customContextMenuRequested(
-                                     const QPoint&)), this, SLOT(twTracksShowContextMenu(
+                                     const QPoint&)), this, SLOT(onTwTracksShowContextMenu(
                                                                          const QPoint&)));
     connect(twTracks, SIGNAL(itemDoubleClicked(QTreeWidgetItem * , int)), this,
             SLOT(onTwTracksItemDoubleClicked(QTreeWidgetItem * , int)));

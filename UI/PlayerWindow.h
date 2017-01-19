@@ -59,7 +59,7 @@ namespace UI {
 
         void onHsVolumeValueChanged(int value);
 
-        void twTracksShowContextMenu(const QPoint &point);
+        void onTwTracksShowContextMenu(const QPoint &point);
 
         void onTwTracksItemDoubleClicked(QTreeWidgetItem *item, int column);
 
