@@ -2,7 +2,6 @@
 // Created by mohsen on 1/3/17.
 //
 
-#include <UI/Components/AudioTreeWidgetItem.h>
 #include "PlayerWindow.h"
 #include <sstream>
 
@@ -62,10 +61,15 @@ void UI::PlayerWindow::onPlaylistCurrentIndexChanged(int index) {
         index = 0;
         player->play();
     }
-    AudioTreeWidgetItem *audioItem = (AudioTreeWidgetItem *) twTracks->topLevelItem(index);
+    AudioTreeWidgetItem *audioItem = (AudioTreeWidgetItem *) twTracks->currentItem();
+    if (audioItem != nullptr) {
+        updateAudioItemIcon(audioItem, QMediaPlayer::State::StoppedState);
+    }
+    audioItem = (AudioTreeWidgetItem *) twTracks->topLevelItem(index);
     if (audioItem != nullptr) {
         pbSeek->setValue(0);
         pbSeek->setRange(0, audioItem->getDuration());
+        updateAudioItemIcon(audioItem, player->state());
     }
     twTracks->setCurrentItem(audioItem);
 }
@@ -80,17 +84,7 @@ void UI::PlayerWindow::onPlayerStateChanged(QMediaPlayer::State newState) {
         AudioTreeWidgetItem *item = (AudioTreeWidgetItem *) twTracks->topLevelItem(index);
         if (item == nullptr)
             return;
-        switch (newState) {
-            case QMediaPlayer::State::StoppedState:
-                item->setIcon(QIcon());
-                break;
-            case QMediaPlayer::State::PlayingState:
-                item->setIcon(QIcon::fromTheme("media-playback-start"));
-                break;
-            case QMediaPlayer::State::PausedState:
-                item->setIcon(QIcon::fromTheme("media-playback-pause"));
-                break;
-        }
+        updateAudioItemIcon(item, newState);
     }
 }
 
@@ -131,7 +125,20 @@ void UI::PlayerWindow::onRemoveMenuTriggered(bool checked) {
 
 void UI::PlayerWindow::onTwTracksItemActivated(QTreeWidgetItem *item, int column) {
     int index = twTracks->indexOfTopLevelItem(item);
-    playlist->setCurrentIndex(index);
+    if (index != playlist->currentIndex()) {
+        playlist->setCurrentIndex(index);
+        player->play();
+    } else {
+        switch (player->state()) {
+            case QMediaPlayer::State::StoppedState:
+            case QMediaPlayer::State::PausedState:
+                player->play();
+                break;
+            case QMediaPlayer::State::PlayingState:
+                player->pause();
+                break;
+        }
+    }
 }
 
 void UI::PlayerWindow::onTwTracksShowContextMenu(const QPoint &point) {
@@ -354,4 +361,18 @@ void UI::PlayerWindow::restorePlaylist(const QString &fileName) {
     }
     file.close();
     openFiles(paths);
+}
+
+void UI::PlayerWindow::updateAudioItemIcon(UI::AudioTreeWidgetItem *item, QMediaPlayer::State newState) {
+    switch (newState) {
+        case QMediaPlayer::State::StoppedState:
+            item->setIcon(QIcon());
+            break;
+        case QMediaPlayer::State::PlayingState:
+            item->setIcon(QIcon::fromTheme("media-playback-start"));
+            break;
+        case QMediaPlayer::State::PausedState:
+            item->setIcon(QIcon::fromTheme("media-playback-pause"));
+            break;
+    }
 }

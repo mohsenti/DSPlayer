@@ -9,6 +9,7 @@
 #include <QtMultimedia/QtMultimedia>
 #include "Core/Core.h"
 #include <UI/Components/SeekBar.h>
+#include <UI/Components/AudioTreeWidgetItem.h>
 
 namespace UI {
 
@@ -33,6 +34,8 @@ namespace UI {
         void savePlaylist(const QString &fileName);
 
         void restorePlaylist(const QString &fileName);
+
+        void updateAudioItemIcon(AudioTreeWidgetItem *item,QMediaPlayer::State newState);
 
     protected:
         virtual void dragEnterEvent(QDragEnterEvent *event) override;
