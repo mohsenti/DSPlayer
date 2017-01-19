@@ -31,7 +31,9 @@ namespace UI {
         void openFiles(const QStringList &paths);
 
         void savePlaylist(const QString &fileName);
+
         void restorePlaylist(const QString &fileName);
+
     protected:
         virtual void dragEnterEvent(QDragEnterEvent *event) override;
 
@@ -58,6 +60,8 @@ namespace UI {
         void onHsVolumeValueChanged(int value);
 
         void twTracksShowContextMenu(const QPoint &point);
+
+        void onTwTracksItemDoubleClicked(QTreeWidgetItem *item, int column);
 
         void onAddFileMenuTriggered(bool checked);
 

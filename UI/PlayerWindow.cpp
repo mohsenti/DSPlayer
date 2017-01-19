@@ -109,6 +109,11 @@ void UI::PlayerWindow::onRemoveMenuTriggered(bool checked) {
     }
 }
 
+void UI::PlayerWindow::onTwTracksItemDoubleClicked(QTreeWidgetItem *item, int column) {
+    int index = twTracks->indexOfTopLevelItem(item);
+    playlist->setCurrentIndex(index);
+}
+
 void UI::PlayerWindow::twTracksShowContextMenu(const QPoint &point) {
     QPoint globalPoint = twTracks->mapToGlobal(point);
     QMenu twMenu;
@@ -181,6 +186,9 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     connect(twTracks, SIGNAL(customContextMenuRequested(
                                      const QPoint&)), this, SLOT(twTracksShowContextMenu(
                                                                          const QPoint&)));
+    connect(twTracks, SIGNAL(itemDoubleClicked(QTreeWidgetItem * , int)), this,
+            SLOT(onTwTracksItemDoubleClicked(QTreeWidgetItem * , int)));
+
     connect(pbSeek, SIGNAL(userChangedValue(int)), this, SLOT(onPbUserChangeValue(int)));
 
     //Arrange controls
