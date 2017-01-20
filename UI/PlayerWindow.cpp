@@ -6,7 +6,7 @@
 #include <sstream>
 #include <Core/CoreTypes.h>
 
-void UI::PlayerWindow::onBtnPlayClicked() {
+void UI::PlayerWindow::onPlayTriggered() {
     if (playlist->mediaCount() == 0)
         return;
     if (player->state() == QMediaPlayer::PlayingState) {
@@ -18,18 +18,18 @@ void UI::PlayerWindow::onBtnPlayClicked() {
     }
 }
 
-void UI::PlayerWindow::onBtnStopClicked() {
+void UI::PlayerWindow::onStopTriggered() {
     if (player->state() == QMediaPlayer::PlayingState || player->state() == QMediaPlayer::PausedState)
         player->stop();
 }
 
-void UI::PlayerWindow::onBtnNextClicked() {
+void UI::PlayerWindow::onNextTriggered() {
     if (playlist->mediaCount() == 0)
         return;
     playlist->next();
 }
 
-void UI::PlayerWindow::onBtnPrevClicked() {
+void UI::PlayerWindow::onPrevTriggered() {
     if (playlist->mediaCount() == 0)
         return;
     playlist->previous();
@@ -240,10 +240,10 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
 
     //Init signals
 
-    connect(btnPlay, SIGNAL(clicked()), this, SLOT(onBtnPlayClicked()));
-    connect(btnNext, SIGNAL(clicked()), this, SLOT(onBtnNextClicked()));
-    connect(btnPrev, SIGNAL(clicked()), this, SLOT(onBtnPrevClicked()));
-    connect(btnStop, SIGNAL(clicked()), this, SLOT(onBtnStopClicked()));
+    connect(btnPlay, SIGNAL(clicked()), this, SLOT(onPlayTriggered()));
+    connect(btnNext, SIGNAL(clicked()), this, SLOT(onNextTriggered()));
+    connect(btnPrev, SIGNAL(clicked()), this, SLOT(onPrevTriggered()));
+    connect(btnStop, SIGNAL(clicked()), this, SLOT(onStopTriggered()));
     connect(btnRepeat, SIGNAL(toggled(bool)), this, SLOT(onBtnRepeatToggled(bool)));
     connect(btnShuffle, SIGNAL(toggled(bool)), this, SLOT(onBtnShuffleToggled(bool)));
     connect(hsVolume, SIGNAL(valueChanged(int)), this, SLOT(onHsVolumeValueChanged(int)));
@@ -471,13 +471,13 @@ void UI::PlayerWindow::restoreApplicationState(const QString &fileName) {
 void UI::PlayerWindow::prepareTrayIconContextMenu() {
     QAction *action;
     action = trayIconMenu->addAction("Play/Pause");
-    connect(action, SIGNAL(triggered(bool)), this, SLOT(onBtnPlayClicked()));
+    connect(action, SIGNAL(triggered(bool)), this, SLOT(onPlayTriggered()));
     action = trayIconMenu->addAction("Stop");
-    connect(action, SIGNAL(triggered(bool)), this, SLOT(onBtnStopClicked()));
+    connect(action, SIGNAL(triggered(bool)), this, SLOT(onStopTriggered()));
     action = trayIconMenu->addAction("Next");
-    connect(action, SIGNAL(triggered(bool)), this, SLOT(onBtnNextClicked()));
+    connect(action, SIGNAL(triggered(bool)), this, SLOT(onNextTriggered()));
     action = trayIconMenu->addAction("Prev");
-    connect(action, SIGNAL(triggered(bool)), this, SLOT(onBtnPrevClicked()));
+    connect(action, SIGNAL(triggered(bool)), this, SLOT(onPrevTriggered()));
     trayIconMenu->addSeparator();
     action = trayIconMenu->addAction("Quit");
     connect(action, SIGNAL(triggered(bool)), this, SLOT(onQuitMenuTriggered(bool)));

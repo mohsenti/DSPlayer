@@ -57,13 +57,13 @@ namespace UI {
 
     private slots:
 
-        void onBtnPlayClicked();
+        void onPlayTriggered();
 
-        void onBtnStopClicked();
+        void onStopTriggered();
 
-        void onBtnNextClicked();
+        void onNextTriggered();
 
-        void onBtnPrevClicked();
+        void onPrevTriggered();
 
         void onBtnRepeatToggled(bool checked);
 
