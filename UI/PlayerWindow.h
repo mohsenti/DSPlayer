@@ -90,6 +90,8 @@ namespace UI {
 
         void onPlayerStateChanged(QMediaPlayer::State newState);
 
+        void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
+
     public:
 
         explicit PlayerWindow(QWidget *parent = 0);

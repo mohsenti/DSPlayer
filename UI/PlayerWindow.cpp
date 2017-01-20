@@ -182,6 +182,16 @@ void UI::PlayerWindow::onTwTracksShowContextMenu(const QPoint &point) {
     twMenu.exec(globalPoint);
 }
 
+void UI::PlayerWindow::onTrayIconActivated(QSystemTrayIcon::ActivationReason reason) {
+    switch (reason) {
+        case QSystemTrayIcon::ActivationReason::Trigger:
+            if (this->isVisible())
+                this->hide();
+            else this->show();
+            break;
+    }
+}
+
 UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     //Create controls
 
@@ -241,6 +251,9 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
             SLOT(onTwTracksItemActivated(QTreeWidgetItem * , int)));
 
     connect(pbSeek, SIGNAL(userChangedValue(int)), this, SLOT(onPbUserChangeValue(int)));
+
+    connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this,
+            SLOT(onTrayIconActivated(QSystemTrayIcon::ActivationReason)));
 
     //Arrange controls
 
