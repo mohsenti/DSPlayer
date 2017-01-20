@@ -28,6 +28,7 @@ namespace UI {
         QMediaPlaylist *playlist;
 
         QSystemTrayIcon *trayIcon;
+        QMenu *trayIconMenu;
 
         void appendDirectory(const QDir &dir, QStringList &paths);
 
@@ -42,6 +43,8 @@ namespace UI {
         void restoreApplicationState(const QString &fileName);
 
         void updateAudioItemIcon(AudioTreeWidgetItem *item, QMediaPlayer::State newState);
+
+        void prepareTrayIconContextMenu();
 
     protected:
         virtual void dragEnterEvent(QDragEnterEvent *event) override;

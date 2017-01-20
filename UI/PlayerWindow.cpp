@@ -210,6 +210,7 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     twTracks = new QTreeWidget(this);
 
     trayIcon = new QSystemTrayIcon(this);
+    trayIconMenu = new QMenu(this);
 
     //Init controls
 
@@ -232,7 +233,9 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     twTracks->setContextMenuPolicy(Qt::CustomContextMenu);
     twTracks->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
 
+    prepareTrayIconContextMenu();
     trayIcon->setIcon(QIcon::fromTheme("media-playback-stop"));
+    trayIcon->setContextMenu(trayIconMenu);
     trayIcon->show();
 
     //Init signals
@@ -311,6 +314,7 @@ UI::PlayerWindow::~PlayerWindow() {
     delete pbSeek;
     delete twTracks;
 
+    delete trayIconMenu;
     delete trayIcon;
 
 }
@@ -462,4 +466,19 @@ void UI::PlayerWindow::restoreApplicationState(const QString &fileName) {
     hsVolume->setValue(state.volume);
     btnRepeat->setChecked(state.repeat);
     btnShuffle->setChecked(state.shuffle);
+}
+
+void UI::PlayerWindow::prepareTrayIconContextMenu() {
+    QAction *action;
+    action = trayIconMenu->addAction("Play/Pause");
+    connect(action, SIGNAL(triggered(bool)), this, SLOT(onBtnPlayClicked()));
+    action = trayIconMenu->addAction("Stop");
+    connect(action, SIGNAL(triggered(bool)), this, SLOT(onBtnStopClicked()));
+    action = trayIconMenu->addAction("Next");
+    connect(action, SIGNAL(triggered(bool)), this, SLOT(onBtnNextClicked()));
+    action = trayIconMenu->addAction("Prev");
+    connect(action, SIGNAL(triggered(bool)), this, SLOT(onBtnPrevClicked()));
+    trayIconMenu->addSeparator();
+    action = trayIconMenu->addAction("Quit");
+    connect(action, SIGNAL(triggered(bool)), this, SLOT(onQuitMenuTriggered(bool)));
 }
