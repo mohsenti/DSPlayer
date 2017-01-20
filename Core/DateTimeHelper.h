@@ -9,7 +9,7 @@
 #include <sstream>
 
 namespace Core {
-    std::string formatSecondsToTime(const int &seconds);
+    std::string formatSecondsToTime(const int &seconds, bool long_format = false);
 }
 
 #endif //DSPLAYER_DATETIMEHELPER_H

@@ -52,7 +52,7 @@ void UI::PlayerWindow::onHsVolumeValueChanged(int value) {
 void UI::PlayerWindow::onPbUserChangeValue(int value) {
     if (player->isSeekable()) {
         player->setPosition(value);
-        pbSeek->requestLabel(Core::formatSecondsToTime(value / 1000).c_str());
+        pbSeek->requestLabel(Core::formatSecondsToTime(value / 1000, true).c_str());
     }
 }
 
