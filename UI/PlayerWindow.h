@@ -10,6 +10,7 @@
 #include "Core/Core.h"
 #include <UI/Components/SeekBar.h>
 #include <UI/Components/AudioTreeWidgetItem.h>
+#include <UI/Components/TreeView.h>
 
 namespace UI {
 
@@ -20,7 +21,7 @@ namespace UI {
         QPushButton *btnPlay, *btnStop, *btnNext, *btnPrev, *btnShuffle, *btnRepeat;
         QSlider *hsVolume;
         SeekBar *pbSeek;
-        QTreeWidget *twTracks;
+        TreeView *tvTracks;
         QHBoxLayout *hbTopContainer;
         QVBoxLayout *vbMainContainer;
 
@@ -71,9 +72,11 @@ namespace UI {
 
         void onHsVolumeValueChanged(int value);
 
-        void onTwTracksShowContextMenu(const QPoint &point);
+        void onTvTracksShowContextMenu(const QPoint &point);
 
-        void onTwTracksItemActivated(QTreeWidgetItem *item, int column);
+        void onTvTracksItemActivated(QTreeWidgetItem *item, int column);
+
+        void onTvItemsMoved(QList<int> from, QList<int> to);
 
         void onAddFileMenuTriggered(bool checked);
 

@@ -36,6 +36,8 @@ namespace UI {
                                                    MediaInfoLib::Info_Name)));
 
         MI->Close();
+
+        setFlags(flags() ^ Qt::ItemIsDropEnabled);
     }
 
     void AudioTreeWidgetItem::setIcon(const QIcon &icon) {

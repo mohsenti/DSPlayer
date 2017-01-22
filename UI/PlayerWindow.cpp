@@ -62,17 +62,17 @@ void UI::PlayerWindow::onPlaylistCurrentIndexChanged(int index) {
         index = 0;
         player->play();
     }
-    AudioTreeWidgetItem *audioItem = (AudioTreeWidgetItem *) twTracks->currentItem();
+    AudioTreeWidgetItem *audioItem = (AudioTreeWidgetItem *) tvTracks->currentItem();
     if (audioItem != nullptr) {
         updateAudioItemIcon(audioItem, QMediaPlayer::State::StoppedState);
     }
-    audioItem = (AudioTreeWidgetItem *) twTracks->topLevelItem(index);
+    audioItem = (AudioTreeWidgetItem *) tvTracks->topLevelItem(index);
     if (audioItem != nullptr) {
         pbSeek->setValue(0);
         pbSeek->setRange(0, audioItem->getDuration());
         updateAudioItemIcon(audioItem, player->state());
     }
-    twTracks->setCurrentItem(audioItem);
+    tvTracks->setCurrentItem(audioItem);
 }
 
 void UI::PlayerWindow::onPlayerPositionChanged(qint64 position) {
@@ -82,7 +82,7 @@ void UI::PlayerWindow::onPlayerPositionChanged(qint64 position) {
 void UI::PlayerWindow::onPlayerStateChanged(QMediaPlayer::State newState) {
     int index = playlist->currentIndex();
     if (index >= 0) {
-        AudioTreeWidgetItem *item = (AudioTreeWidgetItem *) twTracks->topLevelItem(index);
+        AudioTreeWidgetItem *item = (AudioTreeWidgetItem *) tvTracks->topLevelItem(index);
         if (item == nullptr)
             return;
         updateAudioItemIcon(item, newState);
@@ -106,7 +106,7 @@ void UI::PlayerWindow::onPlayerStateChanged(QMediaPlayer::State newState) {
 
 void UI::PlayerWindow::onPlaylistMediaRemoved(int start, int end) {
     for (int i = start; i <= end; i++)
-        delete twTracks->takeTopLevelItem(i);
+        delete tvTracks->takeTopLevelItem(i);
 }
 
 void UI::PlayerWindow::onAddFileMenuTriggered(bool checked) {
@@ -133,17 +133,17 @@ void UI::PlayerWindow::onQuitMenuTriggered(bool checked) {
 }
 
 void UI::PlayerWindow::onRemoveMenuTriggered(bool checked) {
-    auto list = twTracks->selectedItems();
+    auto list = tvTracks->selectedItems();
     for (auto it = list.begin(); it != list.end(); it++) {
-        int index = twTracks->indexOfTopLevelItem(*it);
+        int index = tvTracks->indexOfTopLevelItem(*it);
         playlist->removeMedia(index);
     }
 }
 
-void UI::PlayerWindow::onTwTracksItemActivated(QTreeWidgetItem *item, int column) {
-    int index = twTracks->indexOfTopLevelItem(item);
+void UI::PlayerWindow::onTvTracksItemActivated(QTreeWidgetItem *item, int column) {
+    int index = tvTracks->indexOfTopLevelItem(item);
     if (index != playlist->currentIndex()) {
-        updateAudioItemIcon((AudioTreeWidgetItem *) twTracks->topLevelItem(playlist->currentIndex()),
+        updateAudioItemIcon((AudioTreeWidgetItem *) tvTracks->topLevelItem(playlist->currentIndex()),
                             QMediaPlayer::State::StoppedState);
         playlist->setCurrentIndex(index);
         player->play();
@@ -160,10 +160,18 @@ void UI::PlayerWindow::onTwTracksItemActivated(QTreeWidgetItem *item, int column
     }
 }
 
-void UI::PlayerWindow::onTwTracksShowContextMenu(const QPoint &point) {
-    QPoint globalPoint = twTracks->mapToGlobal(point);
+void UI::PlayerWindow::onTvItemsMoved(QList<int> from, QList<int> to) {
+    playlist->blockSignals(true);
+    for (int i = 0; i < from.count(); i++) {
+        playlist->moveMedia(from.at(i), to.at(i));
+    }
+    playlist->blockSignals(false);
+}
+
+void UI::PlayerWindow::onTvTracksShowContextMenu(const QPoint &point) {
+    QPoint globalPoint = tvTracks->mapToGlobal(point);
     QMenu twMenu;
-    if (twTracks->selectedItems().size() > 0) {
+    if (tvTracks->selectedItems().size() > 0) {
         QAction *item = twMenu.addAction("Remove");
         connect(item, SIGNAL(triggered(bool)), this, SLOT(onRemoveMenuTriggered(bool)));
 
@@ -207,7 +215,7 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     hsVolume = new QSlider(Qt::Horizontal, this);
     pbSeek = new SeekBar(this);
 
-    twTracks = new QTreeWidget(this);
+    tvTracks = new TreeView(this);
 
     trayIcon = new QSystemTrayIcon(this);
     trayIconMenu = new QMenu(this);
@@ -226,12 +234,11 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     pbSeek->setRange(0, 100);
     pbSeek->setValue(0);
 
-    twTracks->setColumnCount(4);
+    tvTracks->setColumnCount(4);
     QStringList labels;
     labels << "State" << "Track" << "Duration" << "Album";
-    twTracks->setHeaderLabels(labels);
-    twTracks->setContextMenuPolicy(Qt::CustomContextMenu);
-    twTracks->setSelectionMode(QAbstractItemView::SelectionMode::ExtendedSelection);
+    tvTracks->setHeaderLabels(labels);
+    tvTracks->setContextMenuPolicy(Qt::CustomContextMenu);
 
     prepareTrayIconContextMenu();
     trayIcon->setIcon(QIcon::fromTheme("media-playback-stop"));
@@ -247,11 +254,12 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     connect(btnRepeat, SIGNAL(toggled(bool)), this, SLOT(onBtnRepeatToggled(bool)));
     connect(btnShuffle, SIGNAL(toggled(bool)), this, SLOT(onBtnShuffleToggled(bool)));
     connect(hsVolume, SIGNAL(valueChanged(int)), this, SLOT(onHsVolumeValueChanged(int)));
-    connect(twTracks, SIGNAL(customContextMenuRequested(
-                                     const QPoint&)), this, SLOT(onTwTracksShowContextMenu(
+    connect(tvTracks, SIGNAL(customContextMenuRequested(
+                                     const QPoint&)), this, SLOT(onTvTracksShowContextMenu(
                                                                          const QPoint&)));
-    connect(twTracks, SIGNAL(itemActivated(QTreeWidgetItem * , int)), this,
-            SLOT(onTwTracksItemActivated(QTreeWidgetItem * , int)));
+    connect(tvTracks, SIGNAL(itemActivated(QTreeWidgetItem * , int)), this,
+            SLOT(onTvTracksItemActivated(QTreeWidgetItem * , int)));
+    connect(tvTracks, SIGNAL(itemsMoved(QList<int>, QList<int>)), this, SLOT(onTvItemsMoved(QList<int>, QList<int>)));
 
     connect(pbSeek, SIGNAL(userChangedValue(int)), this, SLOT(onPbUserChangeValue(int)));
 
@@ -272,7 +280,7 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     hbTopContainer->addWidget(pbSeek);
     hbTopContainer->addWidget(hsVolume);
 
-    vbMainContainer->addWidget(twTracks);
+    vbMainContainer->addWidget(tvTracks);
 
     setLayout(vbMainContainer);
 
@@ -312,7 +320,7 @@ UI::PlayerWindow::~PlayerWindow() {
     delete btnStop;
     delete hsVolume;
     delete pbSeek;
-    delete twTracks;
+    delete tvTracks;
 
     delete trayIconMenu;
     delete trayIcon;
@@ -362,7 +370,7 @@ void UI::PlayerWindow::openFiles(const QStringList &paths) {
         if (mimeType.name().startsWith("audio")) {
             AudioTreeWidgetItem *item;
             item = new AudioTreeWidgetItem(*it);
-            twTracks->addTopLevelItem(item);
+            tvTracks->addTopLevelItem(item);
             playlist->addMedia(item->getMediaContent());
             QApplication::instance()->processEvents();
         }
@@ -387,8 +395,8 @@ void UI::PlayerWindow::savePlaylist(const QString &fileName) {
     QFile file(fileName);
     file.open(QFile::OpenModeFlag::WriteOnly);
     std::stringstream stream;
-    for (int i = 0; i < twTracks->topLevelItemCount(); ++i) {
-        AudioTreeWidgetItem *item = (AudioTreeWidgetItem *) twTracks->topLevelItem(i);
+    for (int i = 0; i < tvTracks->topLevelItemCount(); ++i) {
+        AudioTreeWidgetItem *item = (AudioTreeWidgetItem *) tvTracks->topLevelItem(i);
         stream << item->getFileName().toStdString() << "\r\n";
     }
     file.write(stream.str().c_str());
@@ -430,15 +438,15 @@ void UI::PlayerWindow::saveApplicationState(const QString &fileName) {
     state.currentItemIndex = playlist->currentIndex();
     state.volume = hsVolume->value();
     state.seekBarPosition = pbSeek->value();
-    state.playlistItemsCount = twTracks->topLevelItemCount(); // future use
+    state.playlistItemsCount = tvTracks->topLevelItemCount(); // future use
     state.shuffle = btnShuffle->isChecked();
     state.repeat = btnRepeat->isChecked();
 
     QFile file(fileName);
     file.open(QFile::OpenModeFlag::WriteOnly);
     std::stringstream stream;
-    for (int i = 0; i < twTracks->topLevelItemCount(); ++i) {
-        AudioTreeWidgetItem *item = (AudioTreeWidgetItem *) twTracks->topLevelItem(i);
+    for (int i = 0; i < tvTracks->topLevelItemCount(); ++i) {
+        AudioTreeWidgetItem *item = (AudioTreeWidgetItem *) tvTracks->topLevelItem(i);
         stream << item->getFileName().toStdString() << "\r\n";
     }
     file.write((char *) &state, sizeof(Core::ApplicationState));
