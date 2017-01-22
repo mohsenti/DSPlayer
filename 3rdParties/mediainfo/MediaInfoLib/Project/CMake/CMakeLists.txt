@@ -49,7 +49,6 @@ endif ()
 if (NOT BUILD_ZLIB)
     find_package(ZLIB REQUIRED)
 else ()
-    MESSAGE(${CMAKE_CURRENT_SOURCE_DIR})
     add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/../../../zlib ${CMAKE_CURRENT_BINARY_DIR}/zlib)
     get_target_property(ZLIB_LIBRARIES zlibstatic LOCATION)
     if (NOT BUILD_SHARED_LIBS)
@@ -423,9 +422,3 @@ install(FILES
         ${CMAKE_CURRENT_BINARY_DIR}/MediaInfoLibConfig.cmake
         ${CMAKE_CURRENT_BINARY_DIR}/MediaInfoLibConfigVersion.cmake
         DESTINATION ${MediaInfoLib_CONFIG_INSTALL_DIR})
-
-add_custom_command(TARGET mediainfo
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_CURRENT_SOURCE_DIR}/../../../includes
-        COMMAND ${CMAKE_COMMAND} -E copy ${MediaInfoLib_PUBLIC_HDRS} ${CMAKE_CURRENT_SOURCE_DIR}/../../../includes
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})

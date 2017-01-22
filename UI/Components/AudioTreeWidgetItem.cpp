@@ -5,7 +5,7 @@
 #include <Core/Core.h>
 #include "AudioTreeWidgetItem.h"
 
-#include "MediaInfo.h"
+#include "MediaInfo/MediaInfo.h"
 
 using namespace MediaInfoLib;
 
