@@ -62,7 +62,7 @@ void UI::PlayerWindow::onPlaylistCurrentIndexChanged(int index) {
         index = 0;
         player->play();
     }
-    AudioTreeWidgetItem *audioItem = (AudioTreeWidgetItem *) tvTracks->currentItem();
+    AudioTreeWidgetItem *audioItem = (AudioTreeWidgetItem *) tvTracks->topLevelItem(playlist->previousIndex());
     if (audioItem != nullptr) {
         updateAudioItemIcon(audioItem, QMediaPlayer::State::StoppedState);
     }
