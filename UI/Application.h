@@ -8,7 +8,7 @@
 #include <QGuiApplication>
 
 #include "PlayerWindow.h"
-#include "../Core/CoreTools.h"
+#include "../Core/Core.h"
 
 namespace UI {
 
