@@ -220,6 +220,8 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     trayIcon = new QSystemTrayIcon(this);
     trayIconMenu = new QMenu(this);
 
+    instanceRequestTimer = new QTimer;
+
     //Init controls
 
     btnShuffle->setCheckable(true);
@@ -245,6 +247,9 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     trayIcon->setContextMenu(trayIconMenu);
     trayIcon->show();
 
+    instanceRequestTimer->setInterval(1000);
+    instanceRequestTimer->setSingleShot(true);
+
     //Init signals
 
     connect(btnPlay, SIGNAL(clicked()), this, SLOT(onPlayTriggered()));
@@ -266,6 +271,7 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     connect(trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this,
             SLOT(onTrayIconActivated(QSystemTrayIcon::ActivationReason)));
 
+    connect(instanceRequestTimer, SIGNAL(timeout()), this, SLOT(onInstanceRequestTimerTimeOut()));
     //Arrange controls
 
     vbMainContainer->setAlignment(Qt::AlignmentFlag::AlignTop);
@@ -299,6 +305,8 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     connect(player, SIGNAL(stateChanged(QMediaPlayer::State)), this, SLOT(onPlayerStateChanged(QMediaPlayer::State)));
     connect(playlist, SIGNAL(currentIndexChanged(int)), this, SLOT(onPlaylistCurrentIndexChanged(int)));
     connect(playlist, SIGNAL(mediaRemoved(int, int)), this, SLOT(onPlaylistMediaRemoved(int, int)));
+
+    instanceRequestTimer->start();
 
     restoreApplicationState("tmp.pl");
 }
@@ -362,7 +370,6 @@ void UI::PlayerWindow::dropEvent(QDropEvent *event) {
 }
 
 void UI::PlayerWindow::openFiles(const QStringList &paths) {
-    qDebug() << paths;
     QMimeDatabase mimeDatabase;
     for (auto it = paths.begin(); it != paths.end(); it++) {
         QMimeType mimeType = mimeDatabase.mimeTypeForFile(*it);
@@ -488,4 +495,26 @@ void UI::PlayerWindow::prepareTrayIconContextMenu() {
     trayIconMenu->addSeparator();
     action = trayIconMenu->addAction("Quit");
     connect(action, SIGNAL(triggered(bool)), this, SLOT(onQuitMenuTriggered(bool)));
+}
+
+void UI::PlayerWindow::otherInstanceRequestAddFile(string fileName) {
+    QMimeDatabase mimeDatabase;
+    QString qFileName = QString::fromStdString(fileName);
+    QMimeType mimeType = mimeDatabase.mimeTypeForFile(qFileName);
+    if (mimeType.name().startsWith("audio")) {
+        AudioTreeWidgetItem *item;
+        item = new AudioTreeWidgetItem(qFileName);
+        if (!instanceRequestInTime) {
+            playlist->clear();
+        }
+        tvTracks->addTopLevelItem(item);
+        playlist->addMedia(item->getMediaContent());
+        QApplication::instance()->processEvents();
+    }
+    instanceRequestInTime = true;
+    instanceRequestTimer->start();
+}
+
+void UI::PlayerWindow::onInstanceRequestTimerTimeOut() {
+    instanceRequestInTime = false;
 }

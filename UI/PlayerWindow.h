@@ -31,6 +31,9 @@ namespace UI {
         QSystemTrayIcon *trayIcon;
         QMenu *trayIconMenu;
 
+        QTimer *instanceRequestTimer;
+        bool instanceRequestInTime = false;
+
         void appendDirectory(const QDir &dir, QStringList &paths);
 
         void openFiles(const QStringList &paths);
@@ -98,11 +101,15 @@ namespace UI {
 
         void onTrayIconActivated(QSystemTrayIcon::ActivationReason reason);
 
+        void onInstanceRequestTimerTimeOut();
+
     public:
 
         explicit PlayerWindow(QWidget *parent = 0);
 
         virtual ~PlayerWindow();
+
+        void otherInstanceRequestAddFile(string fileName);
 
     };
 
