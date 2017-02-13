@@ -5,6 +5,11 @@
 #ifndef DSPLAYER_CORETOOLS_H
 #define DSPLAYER_CORETOOLS_H
 
+#include <string>
+#include <cstdlib>
+
+using namespace std;
+
 namespace Core {
 
     class RefCounter {
@@ -59,6 +64,10 @@ namespace Core {
             return tmp;
         }
     };
+
+    string getEnvVariable(const string &envVar) {
+        return getenv(envVar.c_str());
+    }
 }
 
 #endif //DSPLAYER_CORETOOLS_H
