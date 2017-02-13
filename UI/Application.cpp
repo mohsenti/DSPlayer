@@ -14,7 +14,19 @@ UI::Application::~Application() {
 }
 
 int UI::Application::run() {
-    mainWindow = new PlayerWindow();
-    mainWindow->show();
-    return application->exec();
+    InstanceCommunicate communicate("SingleInstancePipeCommunicate");
+    if (communicate.serverIsRunning()) {
+        communicate.start();
+        for (int i = 1; i < argc; ++i) {
+            communicate.writeMessage(1, argv[i]);
+        }
+        return 0;
+    } else {
+        communicate.start();
+        mainWindow = new PlayerWindow(communicate, nullptr);
+        mainWindow->show();
+        int res = application->exec();
+        communicate.stop();
+        return res;
+    }
 }
