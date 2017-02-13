@@ -7,7 +7,7 @@ set(SOURCE_FILES main.cpp UI/Application.cpp UI/Application.h UI/PlayerWindow.cp
         Core/CoreTools.h UI/Components/SeekBar.cpp UI/Components/SeekBar.h Core/DateTimeHelper.h
         Core/Core.h Core/DateTimeHelper.cpp UI/Components/AudioTreeWidgetItem.cpp UI/Components/AudioTreeWidgetItem.h
         Core/CoreTypes.h UI/Components/TreeView.cpp UI/Components/TreeView.h
-        Core/UnixDomainSocket.h Core/UnixDomainSocket.cpp Core/Pipe.cpp Core/Pipe.h UI/CommunicateThread.cpp UI/CommunicateThread.h)
+        Core/UnixDomainSocket.h Core/UnixDomainSocket.cpp Core/Pipe.cpp Core/Pipe.h UI/CommunicateThread.cpp UI/CommunicateThread.h Core/CoreFileSystem.cpp Core/CoreFileSystem.h)
 add_executable(DSPlayer ${SOURCE_FILES})
 
 # Qt4 support
