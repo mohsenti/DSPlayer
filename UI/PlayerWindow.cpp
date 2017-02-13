@@ -200,7 +200,8 @@ void UI::PlayerWindow::onTrayIconActivated(QSystemTrayIcon::ActivationReason rea
     }
 }
 
-UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
+UI::PlayerWindow::PlayerWindow(InstanceCommunicate &communicate, QWidget *parent) : QWidget(parent),
+                                                                                    communicate(communicate) {
     //Create controls
 
     vbMainContainer = new QVBoxLayout();
@@ -221,6 +222,8 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     trayIconMenu = new QMenu(this);
 
     instanceRequestTimer = new QTimer;
+
+    worker = new CommunicateThread(communicate);
 
     //Init controls
 
@@ -306,6 +309,12 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     connect(playlist, SIGNAL(currentIndexChanged(int)), this, SLOT(onPlaylistCurrentIndexChanged(int)));
     connect(playlist, SIGNAL(mediaRemoved(int, int)), this, SLOT(onPlaylistMediaRemoved(int, int)));
 
+    QObject::connect(worker, SIGNAL(messageReceived(
+                                            const InstanceCommunicateMessage&)),
+                     this, SLOT(onMessageReceived(
+                                        const InstanceCommunicateMessage&)));
+    worker->start();
+
     instanceRequestInTime = true;
     instanceRequestTimer->start();
 
@@ -318,7 +327,6 @@ UI::PlayerWindow::~PlayerWindow() {
     //destroy controls
 
     delete instanceRequestTimer;
-
     delete playlist;
     delete player;
 
@@ -334,7 +342,7 @@ UI::PlayerWindow::~PlayerWindow() {
 
     delete trayIconMenu;
     delete trayIcon;
-
+    delete worker;
 }
 
 void UI::PlayerWindow::dragEnterEvent(QDragEnterEvent *event) {
@@ -520,4 +528,8 @@ void UI::PlayerWindow::otherInstanceRequestAddFile(string fileName) {
 
 void UI::PlayerWindow::onInstanceRequestTimerTimeOut() {
     instanceRequestInTime = false;
+}
+
+void UI::PlayerWindow::onMessageReceived(const InstanceCommunicateMessage &message) {
+    this->otherInstanceRequestAddFile(message.message);
 }

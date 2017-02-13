@@ -8,6 +8,8 @@
 #include <QtWidgets>
 #include <QtMultimedia/QtMultimedia>
 #include "Core/Core.h"
+#include "InstanceCommunicate.h"
+#include "CommunicateThread.h"
 #include <UI/Components/SeekBar.h>
 #include <UI/Components/AudioTreeWidgetItem.h>
 #include <UI/Components/TreeView.h>
@@ -33,6 +35,10 @@ namespace UI {
 
         QTimer *instanceRequestTimer;
         bool instanceRequestInTime;
+
+        InstanceCommunicate &communicate;
+        CommunicateThread *worker;
+        QThread communicateThread;
 
         void appendDirectory(const QDir &dir, QStringList &paths);
 
@@ -103,9 +109,11 @@ namespace UI {
 
         void onInstanceRequestTimerTimeOut();
 
+        void onMessageReceived(const InstanceCommunicateMessage &message);
+
     public:
 
-        explicit PlayerWindow(QWidget *parent = 0);
+        explicit PlayerWindow(InstanceCommunicate &communicate, QWidget *parent = 0);
 
         virtual ~PlayerWindow();
 
