@@ -35,6 +35,6 @@ string Core::getTmpDirectory() {
 #endif
 }
 
-bool ::Core::fileExists(const string &fileName) {
+bool Core::fileExists(const string &fileName) {
     return access(fileName.c_str(), F_OK) == 0;
 }
