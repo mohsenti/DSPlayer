@@ -9,5 +9,6 @@
 #include "DateTimeHelper.h"
 #include "UnixDomainSocket.h"
 #include "Pipe.h"
+#include "CoreFileSystem.h"
 
 #endif //DSPLAYER_CORE_H
