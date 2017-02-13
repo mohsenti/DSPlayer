@@ -23,7 +23,7 @@ int UI::Application::run() {
         return 0;
     } else {
         communicate.start();
-        mainWindow = new PlayerWindow(communicate, nullptr);
+        mainWindow = new PlayerWindow(communicate);
         mainWindow->show();
         int res = application->exec();
         communicate.stop();
