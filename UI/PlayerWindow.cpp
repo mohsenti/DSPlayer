@@ -306,6 +306,7 @@ UI::PlayerWindow::PlayerWindow(QWidget *parent) : QWidget(parent) {
     connect(playlist, SIGNAL(currentIndexChanged(int)), this, SLOT(onPlaylistCurrentIndexChanged(int)));
     connect(playlist, SIGNAL(mediaRemoved(int, int)), this, SLOT(onPlaylistMediaRemoved(int, int)));
 
+    instanceRequestInTime = true;
     instanceRequestTimer->start();
 
     restoreApplicationState("tmp.pl");
@@ -315,6 +316,8 @@ UI::PlayerWindow::~PlayerWindow() {
 
     saveApplicationState("tmp.pl");
     //destroy controls
+
+    delete instanceRequestTimer;
 
     delete playlist;
     delete player;

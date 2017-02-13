@@ -32,7 +32,7 @@ namespace UI {
         QMenu *trayIconMenu;
 
         QTimer *instanceRequestTimer;
-        bool instanceRequestInTime = false;
+        bool instanceRequestInTime;
 
         void appendDirectory(const QDir &dir, QStringList &paths);
 
