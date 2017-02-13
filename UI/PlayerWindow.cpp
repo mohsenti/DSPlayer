@@ -105,8 +105,10 @@ void UI::PlayerWindow::onPlayerStateChanged(QMediaPlayer::State newState) {
 }
 
 void UI::PlayerWindow::onPlaylistMediaRemoved(int start, int end) {
-    for (int i = start; i <= end; i++)
-        delete tvTracks->takeTopLevelItem(i);
+    for (int i = start; i <= end; i++) {
+        auto item = tvTracks->topLevelItem(start);
+        delete item;
+    }
 }
 
 void UI::PlayerWindow::onAddFileMenuTriggered(bool checked) {
