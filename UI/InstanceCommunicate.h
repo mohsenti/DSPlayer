@@ -11,14 +11,15 @@
 
 using namespace std;
 
-class CommunicateThread {
+class InstanceCommunicate {
 private:
     int fd;
     string fileName;
 protected:
-    virtual void run();
 
 public:
+    InstanceCommunicate(const string &fileName);
+
     void start();
 
     bool serverIsRunning();

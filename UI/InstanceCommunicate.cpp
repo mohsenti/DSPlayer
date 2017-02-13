@@ -2,7 +2,7 @@
 // Created by mohsen on 1/23/17.
 //
 
-#include "CommunicateThread.h"
+#include "InstanceCommunicate.h"
 #include <QtDebug>
 #include <fcntl.h>
 #include <sys/file.h>
@@ -11,11 +11,7 @@
 
 #ifdef __linux__
 
-void CommunicateThread::run() {
-
-}
-
-void CommunicateThread::start() {
+void InstanceCommunicate::start() {
     if (serverIsRunning()) {
         fd = open(fileName.c_str(),O_WRONLY);
         flock(fd, LOCK_SH | LOCK_NB);
@@ -30,11 +26,11 @@ void CommunicateThread::start() {
     }
 }
 
-void CommunicateThread::stop() {
+void InstanceCommunicate::stop() {
     close(fd);
 }
 
-bool CommunicateThread::serverIsRunning() {
+bool InstanceCommunicate::serverIsRunning() {
     if (!Core::fileExists(fileName))
         return false;
     int fd = open(fileName.c_str(), O_WRONLY | O_NONBLOCK);
@@ -47,5 +43,7 @@ bool CommunicateThread::serverIsRunning() {
         return true;
     }
 }
+
+InstanceCommunicate::InstanceCommunicate(const string &fileName) : fileName(fileName) {}
 
 #endif
