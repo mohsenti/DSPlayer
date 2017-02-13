@@ -65,9 +65,7 @@ namespace Core {
         }
     };
 
-    string getEnvVariable(const string &envVar) {
-        return getenv(envVar.c_str());
-    }
+    string getEnvVariable(const string &envVar);
 }
 
 #endif //DSPLAYER_CORETOOLS_H
