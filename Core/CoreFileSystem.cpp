@@ -2,6 +2,7 @@
 // Created by mohsen on 2/13/17.
 //
 
+#include <zconf.h>
 #include "CoreFileSystem.h"
 #include "Core.h"
 
@@ -32,4 +33,8 @@ string Core::getTmpDirectory() {
     if (result.at(result.length() - 1) != '\\')
         result += "\\";
 #endif
+}
+
+bool ::Core::fileExists(const string &fileName) {
+    return access(fileName.c_str(), F_OK) == 0;
 }
