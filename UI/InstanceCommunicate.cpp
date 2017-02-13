@@ -44,7 +44,9 @@ bool InstanceCommunicate::serverIsRunning() {
     }
 }
 
-InstanceCommunicate::InstanceCommunicate(const string &fileName) : fileName(fileName) {}
+InstanceCommunicate::InstanceCommunicate(const string &fileName) {
+    this->fileName = Core::getTmpDirectory() + fileName;
+}
 
 void InstanceCommunicate::writeMessage(int action, const string &message) {
     write(fd, &action, sizeof(int));
