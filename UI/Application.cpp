@@ -25,6 +25,9 @@ int UI::Application::run() {
         communicate.start();
         mainWindow = new PlayerWindow(communicate);
         mainWindow->show();
+        for (int i = 1; i < argc; ++i) {
+            mainWindow->otherInstanceRequestAddFile(argv[i]);
+        }
         int res = application->exec();
         communicate.stop();
         return res;
