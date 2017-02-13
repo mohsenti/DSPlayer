@@ -2,14 +2,18 @@
 // Created by mohsen on 1/23/17.
 //
 
-#ifndef DSPLAYER_COMMUNICATETHREAD_H
-#define DSPLAYER_COMMUNICATETHREAD_H
+#ifndef DSPLAYER_INSTANCECOMMUNICATEMESSAGE_H
+#define DSPLAYER_INSTANCECOMMUNICATEMESSAGE_H
 
-#include <QtCore/QThread>
 #include <fstream>
 #include "Core/Core.h"
 
 using namespace std;
+
+typedef struct InstanceCommunicateMessage {
+    int action;
+    string message;
+} InstanceCommunicateMessage;
 
 class InstanceCommunicate {
 private:
@@ -25,7 +29,11 @@ public:
     bool serverIsRunning();
 
     void stop();
+
+    void writeMessage(int action, const string &message);
+
+    InstanceCommunicateMessage readMessage();
 };
 
 
-#endif //DSPLAYER_COMMUNICATETHREAD_H
+#endif //DSPLAYER_INSTANCECOMMUNICATEMESSAGE_H

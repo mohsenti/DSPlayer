@@ -13,7 +13,7 @@
 
 void InstanceCommunicate::start() {
     if (serverIsRunning()) {
-        fd = open(fileName.c_str(),O_WRONLY);
+        fd = open(fileName.c_str(), O_WRONLY);
         flock(fd, LOCK_SH | LOCK_NB);
     } else {
         if (!Core::fileExists(fileName)) {
@@ -45,5 +45,28 @@ bool InstanceCommunicate::serverIsRunning() {
 }
 
 InstanceCommunicate::InstanceCommunicate(const string &fileName) : fileName(fileName) {}
+
+void InstanceCommunicate::writeMessage(int action, const string &message) {
+    write(fd, &action, sizeof(int));
+    int messageSize = (int) (message.length() * sizeof(char));
+    write(fd, &messageSize, sizeof(int));
+    if (messageSize > 0)
+        write(fd, message.c_str(), messageSize);
+}
+
+InstanceCommunicateMessage InstanceCommunicate::readMessage() {
+    InstanceCommunicateMessage result;
+    read(fd, &result.action, sizeof(int));
+    int messageSize = 0;
+    read(fd, &messageSize, sizeof(int));
+    if (messageSize > 0) {
+        char *message = new char[messageSize + 1];
+        read(fd, message, messageSize);
+        message[messageSize] = 0;
+        result.message = message;
+        delete message;
+    }
+    return result;
+}
 
 #endif
