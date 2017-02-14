@@ -5,5 +5,6 @@
 #include "CoreTools.h"
 
 string Core::getEnvVariable(const string &envVar) {
-    return getenv(envVar.c_str());
+    char *result = getenv(envVar.c_str());
+    return result == nullptr ? "" : result;
 }

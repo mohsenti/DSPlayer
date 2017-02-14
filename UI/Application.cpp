@@ -14,7 +14,7 @@ UI::Application::~Application() {
 }
 
 int UI::Application::run() {
-    InstanceCommunicate communicate("SingleInstancePipeCommunicate");
+    InstanceCommunicate communicate("SingleInstancePipeCommunicate.DSPlayer");
     if (communicate.serverIsRunning()) {
         communicate.start();
         for (int i = 1; i < argc; ++i) {

@@ -33,6 +33,7 @@ string Core::getTmpDirectory() {
     if (result.at(result.length() - 1) != '\\')
         result += "\\";
 #endif
+    return result;
 }
 
 bool Core::fileExists(const string &fileName) {
