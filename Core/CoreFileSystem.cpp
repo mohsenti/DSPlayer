@@ -3,6 +3,8 @@
 //
 
 #include <zconf.h>
+#include <sys/stat.h>
+#include <pwd.h>
 #include "CoreFileSystem.h"
 #include "Core.h"
 
@@ -38,4 +40,16 @@ string Core::getTmpDirectory() {
 
 bool Core::fileExists(const string &fileName) {
     return access(fileName.c_str(), F_OK) == 0;
+}
+
+string Core::getHomeDirectory() {
+    struct passwd *pw = getpwuid(getuid());
+    string result = pw->pw_dir;
+    if (result.at(result.length() - 1) != '/')
+        result += "/";
+    return result;
+}
+
+void Core::createDirectory(string path) {
+    mkdir(path.c_str(), S_IRWXU | S_IRWXG | S_IROTH);
 }

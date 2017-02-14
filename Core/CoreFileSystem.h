@@ -12,6 +12,10 @@ using namespace std;
 namespace Core {
     string getTmpDirectory();
 
+    string getHomeDirectory();
+
+    void createDirectory(string path);
+
     bool fileExists(const string &fileName);
 }
 #endif //DSPLAYER_COREFILESYSTEM_H

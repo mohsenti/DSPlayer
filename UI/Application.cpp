@@ -14,7 +14,9 @@ UI::Application::~Application() {
 }
 
 int UI::Application::run() {
-    InstanceCommunicate communicate("SingleInstancePipeCommunicate.DSPlayer");
+    string appDir = Core::getHomeDirectory() + ".DSPlayer/";
+    Core::createDirectory(appDir);
+    InstanceCommunicate communicate(appDir + "SingleInstancePipeCommunicate.DSPlayer");
     if (communicate.serverIsRunning()) {
         communicate.start();
         for (int i = 1; i < argc; ++i) {

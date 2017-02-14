@@ -320,12 +320,13 @@ UI::PlayerWindow::PlayerWindow(InstanceCommunicate &communicate, QWidget *parent
     instanceRequestInTime = true;
     instanceRequestTimer->start();
 
-    restoreApplicationState("tmp.pl");
+    string appDir = Core::getHomeDirectory() + ".DSPlayer/";
+    restoreApplicationState(QString::fromStdString(appDir + "tmp.pl"));
 }
 
 UI::PlayerWindow::~PlayerWindow() {
-
-    saveApplicationState("tmp.pl");
+    string appDir = Core::getHomeDirectory() + ".DSPlayer/";
+    saveApplicationState(QString::fromStdString(appDir + "tmp.pl"));
     //destroy controls
 
     delete instanceRequestTimer;
