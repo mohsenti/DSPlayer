@@ -21,7 +21,7 @@ void InstanceCommunicate::start() {
                 //Todo:throw exception here, failed to create pipe
             }
         }
-        fd = open(fileName.c_str(), O_RDWR, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
+        fd = open(fileName.c_str(), O_RDWR | O_NONBLOCK, S_IRUSR | S_IWUSR | S_IRGRP | S_IWGRP | S_IROTH | S_IWOTH);
         flock(fd, LOCK_SH | LOCK_NB);
     }
 }

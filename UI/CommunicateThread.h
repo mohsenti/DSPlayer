@@ -12,8 +12,12 @@ class CommunicateThread : public QThread {
 Q_OBJECT
 private:
     InstanceCommunicate &communicate;
+    bool terminated = false;
+    QMutex mutex;
 public:
     CommunicateThread(InstanceCommunicate &communicate);
+
+    void terminate();
 
 protected:
     void run();

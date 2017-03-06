@@ -65,6 +65,11 @@ void UI::PlayerWindow::onPlaylistCurrentIndexChanged(int index) {
     AudioTreeWidgetItem *audioItem = (AudioTreeWidgetItem *) tvTracks->topLevelItem(playlist->previousIndex());
     if (audioItem != nullptr) {
         updateAudioItemIcon(audioItem, QMediaPlayer::State::StoppedState);
+    } else {
+        for (int i = 0; i < tvTracks->topLevelItemCount(); ++i) {
+            updateAudioItemIcon((AudioTreeWidgetItem *) tvTracks->topLevelItem(i),
+                                QMediaPlayer::State::StoppedState);
+        }
     }
     audioItem = (AudioTreeWidgetItem *) tvTracks->topLevelItem(index);
     if (audioItem != nullptr) {
@@ -329,9 +334,12 @@ UI::PlayerWindow::~PlayerWindow() {
     saveApplicationState(QString::fromStdString(appDir + "tmp.pl"));
     //destroy controls
 
+    worker->terminate();
+    worker->wait();
+
     delete instanceRequestTimer;
-    delete playlist;
     delete player;
+    delete playlist;
 
     delete hbTopContainer;
     delete vbMainContainer;

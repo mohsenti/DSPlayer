@@ -5,11 +5,19 @@
 #include "CommunicateThread.h"
 
 void CommunicateThread::run() {
-    qDebug("Hello World!");
-    while (true) {
+    while (!terminated) {
+        QMutexLocker locker(&mutex);
         InstanceCommunicateMessage message = this->communicate.readMessage();
-        emit messageReceived(message);
+        if (message.action != 0)
+                emit messageReceived(message);
+        locker.unlock();
+        msleep(10);
     }
+}
+
+void CommunicateThread::terminate() {
+    QMutexLocker locker(&mutex);
+    terminated = true;
 }
 
 CommunicateThread::CommunicateThread(InstanceCommunicate &communicate) : communicate(communicate) {

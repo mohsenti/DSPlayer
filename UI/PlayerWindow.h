@@ -6,13 +6,14 @@
 #define DSPLAYER_PLAYERWINDOW_H
 
 #include <QtWidgets>
-#include <QtMultimedia/QtMultimedia>
 #include "Core/Core.h"
 #include "InstanceCommunicate.h"
 #include "CommunicateThread.h"
 #include <UI/Components/SeekBar.h>
 #include <UI/Components/AudioTreeWidgetItem.h>
 #include <UI/Components/TreeView.h>
+#include <QtMultimedia/QMediaPlayer>
+#include <QtMultimedia/QMediaPlaylist>
 
 namespace UI {
 
