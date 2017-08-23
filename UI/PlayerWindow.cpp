@@ -400,13 +400,15 @@ void UI::PlayerWindow::dropEvent(QDropEvent *event) {
 void UI::PlayerWindow::openFiles(const QStringList &paths) {
     QMimeDatabase mimeDatabase;
     for (auto it = paths.begin(); it != paths.end(); it++) {
-        QMimeType mimeType = mimeDatabase.mimeTypeForFile(*it);
-        if (mimeType.name().startsWith("audio")) {
-            AudioTreeWidgetItem *item;
-            item = new AudioTreeWidgetItem(*it);
-            tvTracks->addTopLevelItem(item);
-            playlist->addMedia(item->getMediaContent());
-            QApplication::instance()->processEvents();
+        if (Core::fileExists((*it).toStdString())) {
+            QMimeType mimeType = mimeDatabase.mimeTypeForFile(*it);
+            if (mimeType.name().startsWith("audio")) {
+                AudioTreeWidgetItem *item;
+                item = new AudioTreeWidgetItem(*it);
+                tvTracks->addTopLevelItem(item);
+                playlist->addMedia(item->getMediaContent());
+                QApplication::instance()->processEvents();
+            }
         }
     }
 }
