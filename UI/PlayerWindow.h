@@ -90,6 +90,10 @@ namespace UI {
 
         void onAddFileMenuTriggered(bool checked);
 
+        void onSavePlaylistMenuTriggered(bool checked);
+
+        void onLoadPlaylistMenuTriggered(bool checked);
+
         void onAddFolderMenuTriggered(bool checked);
 
         void onQuitMenuTriggered(bool checked);

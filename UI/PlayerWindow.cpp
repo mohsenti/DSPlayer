@@ -190,6 +190,12 @@ void UI::PlayerWindow::onTvTracksShowContextMenu(const QPoint &point) {
     item = twMenu.addAction("Add Folder");
     connect(item, SIGNAL(triggered(bool)), this, SLOT(onAddFolderMenuTriggered(bool)));
 
+    item = twMenu.addAction("Save Playlist");
+    connect(item, SIGNAL(triggered(bool)), this, SLOT(onSavePlaylistMenuTriggered(bool)));
+
+    item = twMenu.addAction("Load Playlist");
+    connect(item, SIGNAL(triggered(bool)), this, SLOT(onLoadPlaylistMenuTriggered(bool)));
+
     twMenu.addSeparator();
     item = twMenu.addAction("Quit");
 
@@ -432,6 +438,7 @@ void UI::PlayerWindow::savePlaylist(const QString &fileName) {
 }
 
 void UI::PlayerWindow::restorePlaylist(const QString &fileName) {
+    playlist->clear();
     QFile file(fileName);
     file.open(QFile::OpenModeFlag::ReadOnly);
     QStringList paths;
@@ -543,4 +550,23 @@ void UI::PlayerWindow::onInstanceRequestTimerTimeOut() {
 
 void UI::PlayerWindow::onMessageReceived(const InstanceCommunicateMessage &message) {
     this->otherInstanceRequestAddFile(message.message);
+}
+
+void UI::PlayerWindow::onSavePlaylistMenuTriggered(bool checked) {
+    QFileDialog fileDialog(this);
+    fileDialog.setAcceptMode(QFileDialog::AcceptMode::AcceptSave);
+    fileDialog.setFileMode(QFileDialog::FileMode::AnyFile);
+    fileDialog.setNameFilter("*.dsp");
+    fileDialog.exec();
+    if (!fileDialog.selectedFiles().empty())
+        savePlaylist(fileDialog.selectedFiles().back());
+}
+
+void UI::PlayerWindow::onLoadPlaylistMenuTriggered(bool checked) {
+    QFileDialog fileDialog(this);
+    fileDialog.setFileMode(QFileDialog::FileMode::ExistingFile);
+    fileDialog.setNameFilter("*.dsp");
+    fileDialog.exec();
+    if (!fileDialog.selectedFiles().empty())
+        restorePlaylist(fileDialog.selectedFiles().back());
 }
